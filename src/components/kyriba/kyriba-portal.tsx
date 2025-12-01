@@ -110,7 +110,7 @@ const Header = () => {
         <header className="sticky top-0 z-10 flex h-11 items-center justify-between border-b bg-background px-6">
             <div className="flex items-center gap-4">
                 <SidebarTrigger />
-                <h1 className="text-xl font-semibold">Menu Map</h1>
+                <h1 className="text-sm font-semibold">Menu Map</h1>
             </div>
             <div className="flex items-center gap-2">
                 <div className="relative">
