@@ -77,34 +77,34 @@ export default function BankConnectivityCockpit() {
         <Table className="w-full">
           <TableHeader>
             <TableRow className="bg-gray-100 hover:bg-gray-100">
-              <TableHead className="w-12"><Checkbox /></TableHead>
-              <TableHead>Bank</TableHead>
-              <TableHead>Company</TableHead>
-              <TableHead>Reporting type</TableHead>
-              <TableHead>Bank account</TableHead>
-              <TableHead>Account number</TableHead>
-              <TableHead>Balance reported today</TableHead>
-              <TableHead>Cur.</TableHead>
-              <TableHead className="text-right">Bank statement balance</TableHead>
-              <TableHead className="text-right">Bank ledger balance</TableHead>
-              <TableHead className="text-right">Flow ledger balance</TableHead>
+              <TableHead className="w-12 py-2"><Checkbox /></TableHead>
+              <TableHead className="py-2">Bank</TableHead>
+              <TableHead className="py-2">Company</TableHead>
+              <TableHead className="py-2">Reporting type</TableHead>
+              <TableHead className="py-2">Bank account</TableHead>
+              <TableHead className="py-2">Account number</TableHead>
+              <TableHead className="py-2">Balance reported today</TableHead>
+              <TableHead className="py-2">Cur.</TableHead>
+              <TableHead className="text-right py-2">Bank statement balance</TableHead>
+              <TableHead className="text-right py-2">Bank ledger balance</TableHead>
+              <TableHead className="text-right py-2">Flow ledger balance</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {data.map((row, index) => (
               <TableRow key={index} className="odd:bg-white even:bg-gray-50">
-                <TableCell>
+                <TableCell className="py-2">
                   <div className="flex items-center">
                     <Play className="h-4 w-4 fill-current text-gray-500 mr-2" />
                     <Checkbox />
                   </div>
                 </TableCell>
-                <TableCell>{row.bank}</TableCell>
-                <TableCell>{row.company || ''}</TableCell>
-                <TableCell>{row.reportingType}</TableCell>
-                <TableCell>{row.bankAccount || ''}</TableCell>
-                <TableCell>{row.accountNumber || ''}</TableCell>
-                <TableCell>
+                <TableCell className="py-2">{row.bank}</TableCell>
+                <TableCell className="py-2">{row.company || ''}</TableCell>
+                <TableCell className="py-2">{row.reportingType}</TableCell>
+                <TableCell className="py-2">{row.bankAccount || ''}</TableCell>
+                <TableCell className="py-2">{row.accountNumber || ''}</TableCell>
+                <TableCell className="py-2">
                   <div className="flex items-center">
                     <div className="w-16 h-2 bg-gray-200 rounded-full mr-2">
                         <div className="h-2 bg-green-500 rounded-full" style={{ width: row.balanceReported }}></div>
@@ -112,19 +112,19 @@ export default function BankConnectivityCockpit() {
                     {row.balanceReported}
                   </div>
                 </TableCell>
-                <TableCell>{row.cur}</TableCell>
-                <TableCell className="text-right">{row.bankStatement}</TableCell>
-                <TableCell className="text-right">{row.bankLedger}</TableCell>
-                <TableCell className="text-right">{row.flowLedger}</TableCell>
+                <TableCell className="py-2">{row.cur}</TableCell>
+                <TableCell className="text-right py-2">{row.bankStatement}</TableCell>
+                <TableCell className="text-right py-2">{row.bankLedger}</TableCell>
+                <TableCell className="text-right py-2">{row.flowLedger}</TableCell>
               </TableRow>
             ))}
           </TableBody>
           <tfoot>
             <TableRow className="bg-blue-600 text-white hover:bg-blue-700">
-                <TableCell colSpan={8}></TableCell>
-                <TableCell className="text-right font-bold">{total.bankStatement}</TableCell>
-                <TableCell className="text-right font-bold">{total.bankLedger}</TableCell>
-                <TableCell className="text-right font-bold">{total.flowLedger}</TableCell>
+                <TableCell colSpan={8} className="py-2"></TableCell>
+                <TableCell className="text-right font-bold py-2">{total.bankStatement}</TableCell>
+                <TableCell className="text-right font-bold py-2">{total.bankLedger}</TableCell>
+                <TableCell className="text-right font-bold py-2">{total.flowLedger}</TableCell>
             </TableRow>
           </tfoot>
         </Table>
