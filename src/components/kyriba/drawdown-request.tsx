@@ -73,7 +73,7 @@ export default function DrawdownRequest() {
         </div>
       </div>
       <div className="flex-grow overflow-auto">
-        <Table className="w-full">
+        <Table className="w-full text-xs">
           <TableHeader>
             <TableRow className="bg-gray-100 hover:bg-gray-100">
               <TableHead className="w-12 py-1"><Checkbox /></TableHead>
