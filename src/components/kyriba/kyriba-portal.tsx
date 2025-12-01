@@ -107,7 +107,7 @@ export default function KyribaPortal() {
 
 const Header = () => {
     return (
-        <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b bg-background px-6">
+        <header className="sticky top-0 z-10 flex h-11 items-center justify-between border-b bg-background px-6">
             <div className="flex items-center gap-4">
                 <SidebarTrigger />
                 <h1 className="text-xl font-semibold">Menu Map</h1>
