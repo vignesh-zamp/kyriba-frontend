@@ -55,18 +55,16 @@ export default function BankConnectivityCockpit() {
     <div className="bg-background text-foreground h-full flex flex-col">
       <div className="border-b">
         <div className="px-6 py-2 flex justify-between items-center">
-          <div className="flex items-center gap-4">
-            <h2 className="text-sm font-semibold">
-              Bank connectivity cockpit - Bank connectivity cockpit
-            </h2>
-            <div className="flex items-center gap-2 text-muted-foreground">
-                <FilePen className="h-4 w-4 cursor-pointer" />
-                <ListFilter className="h-4 w-4 cursor-pointer" />
-                <Info className="h-4 w-4 cursor-pointer" />
-                <Printer className="h-4 w-4 cursor-pointer" />
-                <History className="h-4 w-4 cursor-pointer" />
-                <MoreVertical className="h-4 w-4 cursor-pointer" />
-            </div>
+          <h2 className="text-sm font-semibold">
+            Bank connectivity cockpit - Bank connectivity cockpit
+          </h2>
+          <div className="flex items-center gap-2 text-muted-foreground">
+              <FilePen className="h-4 w-4 cursor-pointer" />
+              <ListFilter className="h-4 w-4 cursor-pointer" />
+              <Info className="h-4 w-4 cursor-pointer" />
+              <Printer className="h-4 w-4 cursor-pointer" />
+              <History className="h-4 w-4 cursor-pointer" />
+              <MoreVertical className="h-4 w-4 cursor-pointer" />
           </div>
         </div>
         <div className="px-6 pb-2">
