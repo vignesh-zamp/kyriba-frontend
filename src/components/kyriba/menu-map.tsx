@@ -83,8 +83,8 @@ import { Input } from '../ui/input';
             </div>
         </div>
 
-        <Card className="p-4">
-            <h2 className="text-sm font-semibold text-primary">Cash Conversion Cycle</h2>
+        <Card className="p-4 w-fit">
+            <h2 className="text-sm font-semibold">Cash Conversion Cycle</h2>
         </Card>
 
         <div className="grid grid-cols-5 gap-4 items-start">
