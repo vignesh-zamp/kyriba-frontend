@@ -70,7 +70,7 @@ import { Input } from '../ui/input';
       },
   ];
   
-  type ActiveView = 'menu-map' | 'home' | 'bank-connectivity' | 'cash-position' | 'liquidity-plan';
+  type ActiveView = 'menu-map' | 'home' | 'bank-connectivity' | 'cash-position' | 'liquidity-plan' | 'variance-analysis';
 
   export default function MenuMap({ onViewChange }: { onViewChange: (view: ActiveView) => void }) {
     return (
@@ -112,6 +112,9 @@ import { Input } from '../ui/input';
                         }
                         if (item.id === 'active-forecast') {
                             onViewChange('liquidity-plan');
+                        }
+                        if (item.id === 'cash-flow-reliability-check') {
+                            onViewChange('variance-analysis');
                         }
                       }}
                     >

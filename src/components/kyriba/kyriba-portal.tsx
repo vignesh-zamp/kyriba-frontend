@@ -42,6 +42,7 @@ import HomeDashboard from './home-dashboard';
 import BankConnectivityCockpit from './bank-connectivity-cockpit';
 import CashPositionWorksheet from './cash-position-worksheet';
 import LiquidityPlan from './liquidity-plan';
+import VarianceAnalysisWorksheet from './variance-analysis-worksheet';
 
 const sidebarNav = [
   { id: 'menu-map', icon: Grid, label: 'Menu Map', tooltip: 'Menu Map' },
@@ -67,14 +68,14 @@ const sidebarFooterNav = [
 ]
 
 type ActiveView = 'menu-map' | 'home' | 'bank-connectivity';
-type OpenModal = 'none' | 'cash-position' | 'liquidity-plan';
+type OpenModal = 'none' | 'cash-position' | 'liquidity-plan' | 'variance-analysis';
 
 export default function KyribaPortal() {
   const [activeView, setActiveView] = React.useState<ActiveView>('menu-map');
   const [openModal, setOpenModal] = React.useState<OpenModal>('none');
 
-  const handleViewChange = (view: ActiveView | 'cash-position' | 'liquidity-plan') => {
-    if (view === 'cash-position' || view === 'liquidity-plan') {
+  const handleViewChange = (view: ActiveView | 'cash-position' | 'liquidity-plan' | 'variance-analysis') => {
+    if (view === 'cash-position' || view === 'liquidity-plan' || view === 'variance-analysis') {
       setOpenModal(view);
     } else {
       setActiveView(view);
@@ -160,6 +161,15 @@ export default function KyribaPortal() {
                   <DialogTitle className="sr-only">Liquidity Plan</DialogTitle>
                 </DialogHeader>
                 <LiquidityPlan />
+              </DialogContent>
+            </Dialog>
+
+            <Dialog open={openModal === 'variance-analysis'} onOpenChange={(isOpen) => !isOpen && setOpenModal('none')}>
+              <DialogContent className="max-w-5xl h-[70vh] flex flex-col p-0">
+                <DialogHeader className="p-0">
+                  <DialogTitle className="sr-only">Variance Analysis Worksheet</DialogTitle>
+                </DialogHeader>
+                <VarianceAnalysisWorksheet onClose={() => setOpenModal('none')} />
               </DialogContent>
             </Dialog>
           </div>
