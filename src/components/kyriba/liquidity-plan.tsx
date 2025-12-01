@@ -24,6 +24,8 @@ import React, { useState, useMemo } from 'react';
 import { liquidityPlanData } from '@/lib/liquidity-plan-data';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Checkbox } from '../ui/checkbox';
+import AIPredictionModal from './ai-prediction-modal';
+import { Dialog, DialogContent } from '../ui/dialog';
 
 const initialVisibleLines: { [key: string]: boolean } = {
   'Final balance': true,
@@ -39,6 +41,7 @@ const initialVisibleLines: { [key: string]: boolean } = {
 
 export default function LiquidityPlan() {
   const [visibleLines, setVisibleLines] = useState(initialVisibleLines);
+  const [isAIPredictionOpen, setIsAIPredictionOpen] = useState(false);
 
   const chartData = useMemo(() => {
     return liquidityPlanData.months.map(month => {
@@ -66,7 +69,7 @@ export default function LiquidityPlan() {
             <h2 className="text-sm font-semibold">
               Liquidity plan
             </h2>
-            <Button size="sm" className="bg-black text-white hover:bg-gray-800">AI Prediction</Button>
+            <Button size="sm" className="bg-black text-white hover:bg-gray-800" onClick={() => setIsAIPredictionOpen(true)}>AI Prediction</Button>
           </div>
           <div className="flex items-center gap-2 text-muted-foreground">
             <Download className="h-4 w-4 cursor-pointer" />
@@ -197,6 +200,12 @@ export default function LiquidityPlan() {
       <div className="flex justify-end p-4 mt-auto">
         <Button className="bg-pink-600 text-white hover:bg-pink-700">Ready for a Live Demo?</Button>
       </div>
+
+      <Dialog open={isAIPredictionOpen} onOpenChange={setIsAIPredictionOpen}>
+        <DialogContent className="max-w-4xl p-0">
+            <AIPredictionModal onClose={() => setIsAIPredictionOpen(false)} />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
