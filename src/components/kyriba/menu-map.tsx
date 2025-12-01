@@ -70,7 +70,7 @@ import { Input } from '../ui/input';
       },
   ];
   
-  type ActiveView = 'menu-map' | 'home' | 'bank-connectivity' | 'cash-position';
+  type ActiveView = 'menu-map' | 'home' | 'bank-connectivity' | 'cash-position' | 'liquidity-plan';
 
   export default function MenuMap({ onViewChange }: { onViewChange: (view: ActiveView) => void }) {
     return (
@@ -109,6 +109,9 @@ import { Input } from '../ui/input';
                         }
                         if (item.id === 'cash-position') {
                           onViewChange('cash-position');
+                        }
+                        if (item.id === 'active-forecast') {
+                            onViewChange('liquidity-plan');
                         }
                       }}
                     >

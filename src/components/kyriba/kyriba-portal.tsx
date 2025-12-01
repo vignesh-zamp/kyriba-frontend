@@ -41,6 +41,7 @@ import { Input } from '../ui/input';
 import HomeDashboard from './home-dashboard';
 import BankConnectivityCockpit from './bank-connectivity-cockpit';
 import CashPositionWorksheet from './cash-position-worksheet';
+import LiquidityPlan from './liquidity-plan';
 
 const sidebarNav = [
   { id: 'menu-map', icon: Grid, label: 'Menu Map', tooltip: 'Menu Map' },
@@ -66,14 +67,15 @@ const sidebarFooterNav = [
 ]
 
 type ActiveView = 'menu-map' | 'home' | 'bank-connectivity';
+type OpenModal = 'none' | 'cash-position' | 'liquidity-plan';
 
 export default function KyribaPortal() {
   const [activeView, setActiveView] = React.useState<ActiveView>('menu-map');
-  const [isCashPositionOpen, setIsCashPositionOpen] = React.useState(false);
+  const [openModal, setOpenModal] = React.useState<OpenModal>('none');
 
-  const handleViewChange = (view: ActiveView | 'cash-position') => {
-    if (view === 'cash-position') {
-      setIsCashPositionOpen(true);
+  const handleViewChange = (view: ActiveView | 'cash-position' | 'liquidity-plan') => {
+    if (view === 'cash-position' || view === 'liquidity-plan') {
+      setOpenModal(view);
     } else {
       setActiveView(view);
     }
@@ -143,12 +145,21 @@ export default function KyribaPortal() {
             {activeView === 'home' && <HomeDashboard />}
             {activeView === 'bank-connectivity' && <BankConnectivityCockpit />}
             
-            <Dialog open={isCashPositionOpen} onOpenChange={setIsCashPositionOpen}>
+            <Dialog open={openModal === 'cash-position'} onOpenChange={(isOpen) => !isOpen && setOpenModal('none')}>
               <DialogContent className="max-w-7xl h-[90vh] flex flex-col p-0">
-                <DialogHeader className="sr-only">
-                  <DialogTitle>Cash Position Worksheet</DialogTitle>
+                <DialogHeader className="p-4">
+                  <DialogTitle className="sr-only">Cash Position Worksheet</DialogTitle>
                 </DialogHeader>
                 <CashPositionWorksheet />
+              </DialogContent>
+            </Dialog>
+
+            <Dialog open={openModal === 'liquidity-plan'} onOpenChange={(isOpen) => !isOpen && setOpenModal('none')}>
+              <DialogContent className="max-w-7xl h-[90vh] flex flex-col p-0">
+                <DialogHeader className="p-4">
+                  <DialogTitle className="sr-only">Liquidity Plan</DialogTitle>
+                </DialogHeader>
+                <LiquidityPlan />
               </DialogContent>
             </Dialog>
           </div>
