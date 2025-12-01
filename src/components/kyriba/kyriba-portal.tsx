@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import {
   Sidebar,
   SidebarContent,
@@ -34,33 +35,48 @@ import { KyribaLogo, RequestsManagementIcon, TasksReportsIcon, BankRelationshipI
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import MenuMap from './menu-map';
 import { Button } from '../ui/button';
-import { Checkbox } from '../ui/checkbox';
 import { Input } from '../ui/input';
+import HomeDashboard from './home-dashboard';
 
 const sidebarNav = [
-  { icon: Grid, label: 'Menu Map', tooltip: 'Menu Map' },
-  { icon: Star, label: 'Shortcuts', tooltip: 'Shortcuts' },
-  { icon: Home, label: 'Home', tooltip: 'Home' },
-  { icon: RequestsManagementIcon, label: 'Requests management', tooltip: 'Requests management' },
-  { icon: LayoutDashboard, label: 'Dashboard', tooltip: 'Dashboard' },
-  { icon: TasksReportsIcon, label: 'Tasks & Reports', tooltip: 'Tasks & Reports' },
-  { icon: BankRelationshipIcon, label: 'Bank Relationship', tooltip: 'Bank Relationship' },
-  { icon: Wallet, label: 'Cash & Liquidity', tooltip: 'Cash & Liquidity' },
-  { icon: Landmark, label: 'Financial Transactions', tooltip: 'Financial Transactions' },
-  { icon: ArrowLeftRight, label: 'Payment', tooltip: 'Payment' },
-  { icon: Landmark, label: 'Trade Solutions', tooltip: 'Trade Solutions' },
-  { icon: FraudComplianceIcon, label: 'Fraud & Compliance', tooltip: 'Fraud & Compliance' },
-  { icon: CoreDataIcon, label: 'Core Data', tooltip: 'Core Data' },
-  { icon: MyReceivablesIcon, label: 'My receivables', tooltip: 'My receivables' },
+  { id: 'menu-map', icon: Grid, label: 'Menu Map', tooltip: 'Menu Map' },
+  { id: 'shortcuts', icon: Star, label: 'Shortcuts', tooltip: 'Shortcuts' },
+  { id: 'home', icon: Home, label: 'Home', tooltip: 'Home' },
+  { id: 'requests', icon: RequestsManagementIcon, label: 'Requests management', tooltip: 'Requests management' },
+  { id: 'dashboard', icon: LayoutDashboard, label: 'Dashboard', tooltip: 'Dashboard' },
+  { id: 'tasks', icon: TasksReportsIcon, label: 'Tasks & Reports', tooltip: 'Tasks & Reports' },
+  { id: 'bank-relationship', icon: BankRelationshipIcon, label: 'Bank Relationship', tooltip: 'Bank Relationship' },
+  { id: 'cash-liquidity', icon: Wallet, label: 'Cash & Liquidity', tooltip: 'Cash & Liquidity' },
+  { id: 'financial-transactions', icon: Landmark, label: 'Financial Transactions', tooltip: 'Financial Transactions' },
+  { id: 'payment', icon: ArrowLeftRight, label: 'Payment', tooltip: 'Payment' },
+  { id: 'trade-solutions', icon: Landmark, label: 'Trade Solutions', tooltip: 'Trade Solutions' },
+  { id: 'fraud-compliance', icon: FraudComplianceIcon, label: 'Fraud & Compliance', tooltip: 'Fraud & Compliance' },
+  { id: 'core-data', icon: CoreDataIcon, label: 'Core Data', tooltip: 'Core Data' },
+  { id: 'my-receivables', icon: MyReceivablesIcon, label: 'My receivables', tooltip: 'My receivables' },
 ];
 
 const sidebarFooterNav = [
-  { icon: User, label: 'My account', tooltip: 'My account' },
-  { icon: AccountManagementIcon, label: 'Account Management', tooltip: 'Account Management' },
-  { icon: Settings, label: 'Support', tooltip: 'Support' },
+  { id: 'my-account', icon: User, label: 'My account', tooltip: 'My account' },
+  { id: 'account-management', icon: AccountManagementIcon, label: 'Account Management', tooltip: 'Account Management' },
+  { id: 'support', icon: Settings, label: 'Support', tooltip: 'Support' },
 ]
 
+type ActiveView = 'menu-map' | 'home';
+
 export default function KyribaPortal() {
+  const [activeView, setActiveView] = React.useState<ActiveView>('menu-map');
+
+  const getHeaderTitle = () => {
+    switch (activeView) {
+      case 'menu-map':
+        return 'Menu Map';
+      case 'home':
+        return 'Home Page';
+      default:
+        return 'Menu Map';
+    }
+  };
+
   return (
     <SidebarProvider>
       <Sidebar collapsible="icon">
@@ -69,9 +85,17 @@ export default function KyribaPortal() {
         </SidebarHeader>
         <SidebarContent>
           <SidebarMenu>
-            {sidebarNav.map((item, index) => (
-              <SidebarMenuItem key={index}>
-                <SidebarMenuButton isActive={index === 0} tooltip={item.tooltip}>
+            {sidebarNav.map((item) => (
+              <SidebarMenuItem key={item.id}>
+                <SidebarMenuButton 
+                  isActive={activeView === item.id} 
+                  tooltip={item.tooltip}
+                  onClick={() => {
+                    if (item.id === 'home' || item.id === 'menu-map') {
+                      setActiveView(item.id);
+                    }
+                  }}
+                >
                   <item.icon />
                   <span>{item.label}</span>
                 </SidebarMenuButton>
@@ -82,8 +106,8 @@ export default function KyribaPortal() {
         </SidebarContent>
         <SidebarFooter>
           <SidebarMenu>
-          {sidebarFooterNav.map((item, index) => (
-              <SidebarMenuItem key={index}>
+          {sidebarFooterNav.map((item) => (
+              <SidebarMenuItem key={item.id}>
                 <SidebarMenuButton tooltip={item.tooltip}>
                   <item.icon />
                   <span>{item.label}</span>
@@ -95,9 +119,10 @@ export default function KyribaPortal() {
       </Sidebar>
       <SidebarInset>
         <main className="flex flex-1 flex-col">
-          <Header />
+          <Header title={getHeaderTitle()} showStar={activeView === 'home'} />
           <div className="flex-1 overflow-auto bg-white p-6">
-            <MenuMap />
+            {activeView === 'menu-map' && <MenuMap />}
+            {activeView === 'home' && <HomeDashboard />}
           </div>
         </main>
       </SidebarInset>
@@ -105,12 +130,15 @@ export default function KyribaPortal() {
   );
 }
 
-const Header = () => {
+const Header = ({ title, showStar }: { title: string, showStar?: boolean }) => {
     return (
         <header className="sticky top-0 z-10 flex h-11 items-center justify-between border-b bg-background px-6">
             <div className="flex items-center gap-4">
                 <SidebarTrigger />
-                <h1 className="text-sm font-semibold">Menu Map</h1>
+                <div className="flex items-center gap-2">
+                  {showStar && <Star className="h-4 w-4" />}
+                  <h1 className="text-sm font-semibold">{title}</h1>
+                </div>
             </div>
             <div className="flex items-center gap-2">
                 <div className="relative">
