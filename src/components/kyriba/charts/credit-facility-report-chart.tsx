@@ -39,7 +39,7 @@ export default function CreditFacilityReportChart() {
           <YAxis yAxisId="left" orientation="left" stroke="#8884d8" tickFormatter={formatYAxis} />
           <YAxis yAxisId="right" orientation="right" stroke="#82ca9d" domain={[0, 100]} />
           <Tooltip formatter={formatTooltipValue} />
-          <Legend wrapperStyle={{ paddingTop: '20px' }} />
+          <Legend wrapperStyle={{ paddingTop: '20px', fontSize: '12px' }} />
           <Bar dataKey="Available" yAxisId="left" barSize={50} fill="hsl(220 8% 92%)" />
           <Line type="monotone" dataKey="Unused %" yAxisId="right" stroke="hsl(240 10% 3.9%)" />
           <Line type="monotone" dataKey="Used %" yAxisId="right" stroke="#f472b6" />

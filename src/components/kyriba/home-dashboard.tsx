@@ -7,16 +7,16 @@ import CreditFacilityReportChart from './charts/credit-facility-report-chart';
 import DebtMaturitiesLadderChart from './charts/debt-maturities-ladder-chart';
 import KeyInterestRateCurvesChart from './charts/key-interest-rate-curves-chart';
 import FixedVsFloatDebtChart from './charts/fixed-vs-float-debt-chart';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 
 const ChartHeader = ({ title, subTitle }: { title: string; subTitle?: string }) => (
     <div className="flex items-center justify-between">
       <div>
-        <h3 className="font-semibold text-gray-800">{title}</h3>
-        {subTitle && <p className="text-xs text-gray-500">{subTitle}</p>}
+        <h3 className="text-sm font-semibold text-foreground">{title}</h3>
+        {subTitle && <p className="text-xs text-muted-foreground">{subTitle}</p>}
       </div>
-      <div className="flex items-center gap-2 text-gray-500">
+      <div className="flex items-center gap-2 text-muted-foreground">
         <Printer className="h-4 w-4 cursor-pointer" />
         <RefreshCw className="h-4 w-4 cursor-pointer" />
         <Settings2 className="h-4 w-4 cursor-pointer" />
@@ -33,19 +33,19 @@ export default function HomeDashboard() {
       <div className="flex items-start justify-between">
         <div className="flex flex-col">
             <div className="flex items-center gap-2">
-                <Star className="h-4 w-4 text-gray-400" />
+                <Star className="h-4 w-4 text-muted-foreground" />
                 <h2 className="text-sm font-semibold">Reporting dashboard</h2>
             </div>
             <Tabs value={activeTab} onValueChange={setActiveTab} className="mt-2">
                 <TabsList className="bg-transparent p-0">
-                    <TabsTrigger value="banking-dashboard" className="px-3 py-1.5 text-sm font-medium text-gray-500 data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-primary data-[state=active]:shadow-none rounded-none">Banking Dashboard</TabsTrigger>
-                    <TabsTrigger value="liquidity-dashboard" className="px-3 py-1.5 text-sm font-medium text-gray-500 data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-primary data-[state=active]:shadow-none rounded-none">Liquidity Dashboard</TabsTrigger>
-                    <TabsTrigger value="cfo-cockpit" className="px-3 py-1.5 text-sm font-medium text-gray-500 data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-primary data-[state=active]:shadow-none rounded-none">CFO Cockpit</TabsTrigger>
-                    <TabsTrigger value="treasurer-cockpit" className="px-3 py-1.5 text-sm font-medium text-gray-500 data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-primary data-[state=active]:shadow-none rounded-none">Treasurer Cockpit</TabsTrigger>
+                    <TabsTrigger value="banking-dashboard" className="rounded-none px-3 py-1.5 text-sm font-medium text-muted-foreground data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-primary data-[state=active]:shadow-none">Banking Dashboard</TabsTrigger>
+                    <TabsTrigger value="liquidity-dashboard" className="rounded-none px-3 py-1.5 text-sm font-medium text-muted-foreground data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-primary data-[state=active]:shadow-none">Liquidity Dashboard</TabsTrigger>
+                    <TabsTrigger value="cfo-cockpit" className="rounded-none px-3 py-1.5 text-sm font-medium text-muted-foreground data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-primary data-[state=active]:shadow-none">CFO Cockpit</TabsTrigger>
+                    <TabsTrigger value="treasurer-cockpit" className="rounded-none px-3 py-1.5 text-sm font-medium text-muted-foreground data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-primary data-[state=active]:shadow-none">Treasurer Cockpit</TabsTrigger>
                 </TabsList>
             </Tabs>
         </div>
-        <Button variant="outline" size="sm">Basic version</Button>
+        <Button variant="outline" size="sm" className="self-center">Basic version</Button>
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">

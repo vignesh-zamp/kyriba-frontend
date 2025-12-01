@@ -38,7 +38,7 @@ export default function DebtMaturitiesLadderChart() {
           <XAxis dataKey="date" />
           <YAxis tickFormatter={formatYAxis} domain={[-5000, 0]}/>
           <Tooltip formatter={formatTooltipValue}/>
-          <Legend wrapperStyle={{ paddingTop: '20px' }} />
+          <Legend wrapperStyle={{ paddingTop: '20px', fontSize: '12px' }} />
           <Bar dataKey="Bond" stackId="a" fill="hsl(220 8% 92%)" />
           <Bar dataKey="ECA" stackId="a" fill="hsl(220 8% 80%)" />
           <Bar dataKey="Senior Note" stackId="a" fill="#f472b6" />

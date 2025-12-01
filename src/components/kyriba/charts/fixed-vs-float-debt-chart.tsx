@@ -39,7 +39,7 @@ export default function FixedVsFloatDebtChart() {
           <Legend 
             verticalAlign="bottom" 
             align="center"
-            wrapperStyle={{ paddingTop: '20px' }}
+            wrapperStyle={{ paddingTop: '20px', fontSize: '12px' }}
             formatter={(value, entry) => {
               const item = data.find(d => d.name === value);
               return `${value} = ${item?.value.toFixed(2)}`;

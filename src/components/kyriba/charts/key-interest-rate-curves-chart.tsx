@@ -57,7 +57,7 @@ export default function KeyInterestRateCurvesChart() {
           <XAxis dataKey="name" interval={0} tick={<CustomXAxisTick />} />
           <YAxis domain={[1, 6]} tickFormatter={(tick) => tick.toFixed(2)} />
           <Tooltip />
-          <Legend verticalAlign="bottom" wrapperStyle={{ paddingTop: '50px' }} payload={[
+          <Legend verticalAlign="bottom" wrapperStyle={{ paddingTop: '50px', fontSize: '12px' }} payload={[
               { value: 'EUR Zero Coupon Curve - 12/01/2023 (Bid Zero coupon)', type: 'line', color: 'hsl(220 8% 70%)' },
               { value: 'GBP Zero Coupon Curve - 12/01/2023 (Bid Zero coupon)', type: 'line', color: 'hsl(220 8% 40%)' },
               { value: 'USD Zero Coupon Curve - 12/01/2023 (Bid Zero coupon)', type: 'line', color: '#f472b6' }
