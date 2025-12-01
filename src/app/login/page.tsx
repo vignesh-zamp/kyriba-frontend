@@ -129,8 +129,9 @@ export default function LoginPage() {
           <div className="absolute w-full h-full bg-[#bdc3c7] transform -rotate-12 origin-bottom-left" style={{ clipPath: 'polygon(0 0, 100% 0, 100% 90%, 0 100%)' }}></div>
           <div className="absolute w-full h-full bg-[#2c3e50] transform -rotate-12 origin-bottom-left" style={{ clipPath: 'polygon(0 0, 100% 0, 100% 80%, 0 100%)' }}></div>
         </div>
-        <div className="relative z-10">
-          <h2 className="text-white text-6xl font-light">Welcome <br />to Liquidity <br />Performance.</h2>
+        <div className="relative z-10 flex flex-col items-center">
+            <Image src="/kyriba-logo.svg" alt="Kyriba Logo" width={150} height={50} className="mb-8" />
+            <h2 className="text-white text-6xl font-light text-center">Welcome <br />to Liquidity <br />Performance.</h2>
         </div>
       </div>
     </div>
