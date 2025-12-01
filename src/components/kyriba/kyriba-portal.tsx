@@ -67,7 +67,7 @@ export default function KyribaPortal() {
         <SidebarHeader>
             <KyribaLogo className="h-10"/>
         </SidebarHeader>
-        <SidebarContent className="flex-grow">
+        <SidebarContent>
           <SidebarMenu>
             {sidebarNav.map((item, index) => (
               <SidebarMenuItem key={index}>
