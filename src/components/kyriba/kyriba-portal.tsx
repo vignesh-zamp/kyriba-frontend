@@ -44,6 +44,7 @@ import CashPositionWorksheet from './cash-position-worksheet';
 import LiquidityPlan from './liquidity-plan';
 import VarianceAnalysisWorksheet from './variance-analysis-worksheet';
 import VarianceAnalysisResult from './variance-analysis-result';
+import DrawdownRequest from './drawdown-request';
 
 const sidebarNav = [
   { id: 'menu-map', icon: Grid, label: 'Menu Map', tooltip: 'Menu Map' },
@@ -69,14 +70,14 @@ const sidebarFooterNav = [
 ]
 
 type ActiveView = 'menu-map' | 'home' | 'bank-connectivity';
-type OpenModal = 'none' | 'cash-position' | 'liquidity-plan' | 'variance-analysis' | 'variance-analysis-result';
+type OpenModal = 'none' | 'cash-position' | 'liquidity-plan' | 'variance-analysis' | 'variance-analysis-result' | 'drawdown-request';
 
 export default function KyribaPortal() {
   const [activeView, setActiveView] = React.useState<ActiveView>('menu-map');
   const [openModal, setOpenModal] = React.useState<OpenModal>('none');
 
-  const handleViewChange = (view: ActiveView | 'cash-position' | 'liquidity-plan' | 'variance-analysis') => {
-    if (view === 'cash-position' || view === 'liquidity-plan' || view === 'variance-analysis') {
+  const handleViewChange = (view: ActiveView | 'cash-position' | 'liquidity-plan' | 'variance-analysis' | 'drawdown-request') => {
+    if (view === 'cash-position' || view === 'liquidity-plan' || view === 'variance-analysis' || view === 'drawdown-request') {
       setOpenModal(view);
     } else {
       setActiveView(view);
@@ -184,6 +185,15 @@ export default function KyribaPortal() {
                   <DialogTitle className="sr-only">Variance Analysis Result</DialogTitle>
                 </DialogHeader>
                 <VarianceAnalysisResult onBack={() => setOpenModal('variance-analysis')} />
+              </DialogContent>
+            </Dialog>
+
+            <Dialog open={openModal === 'drawdown-request'} onOpenChange={(isOpen) => !isOpen && setOpenModal('none')}>
+              <DialogContent className="max-w-7xl h-[90vh] flex flex-col p-0">
+                <DialogHeader className="p-0">
+                  <DialogTitle className="sr-only">Drawdown Request</DialogTitle>
+                </DialogHeader>
+                <DrawdownRequest />
               </DialogContent>
             </Dialog>
           </div>
