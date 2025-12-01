@@ -38,10 +38,10 @@ export default function HomeDashboard() {
             </div>
             <Tabs value={activeTab} onValueChange={setActiveTab} className="mt-2">
                 <TabsList className="bg-transparent p-0">
-                    <TabsTrigger value="banking-dashboard" className="rounded-none px-3 py-1.5 text-sm font-medium text-muted-foreground data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-primary data-[state=active]:shadow-none">Banking Dashboard</TabsTrigger>
-                    <TabsTrigger value="liquidity-dashboard" className="rounded-none px-3 py-1.5 text-sm font-medium text-muted-foreground data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-primary data-[state=active]:shadow-none">Liquidity Dashboard</TabsTrigger>
-                    <TabsTrigger value="cfo-cockpit" className="rounded-none px-3 py-1.5 text-sm font-medium text-muted-foreground data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-primary data-[state=active]:shadow-none">CFO Cockpit</TabsTrigger>
-                    <TabsTrigger value="treasurer-cockpit" className="rounded-none px-3 py-1.5 text-sm font-medium text-muted-foreground data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-primary data-[state=active]:shadow-none">Treasurer Cockpit</TabsTrigger>
+                    <TabsTrigger value="banking-dashboard" className="rounded-none px-3 py-1.5 text-xs font-medium text-muted-foreground data-[state=active]:border-b-2 data-[state=active]:border-foreground data-[state=active]:text-foreground data-[state=active]:shadow-none">Banking Dashboard</TabsTrigger>
+                    <TabsTrigger value="liquidity-dashboard" className="rounded-none px-3 py-1.5 text-xs font-medium text-muted-foreground data-[state=active]:border-b-2 data-[state=active]:border-foreground data-[state=active]:text-foreground data-[state=active]:shadow-none">Liquidity Dashboard</TabsTrigger>
+                    <TabsTrigger value="cfo-cockpit" className="rounded-none px-3 py-1.5 text-xs font-medium text-muted-foreground data-[state=active]:border-b-2 data-[state=active]:border-foreground data-[state=active]:text-foreground data-[state=active]:shadow-none">CFO Cockpit</TabsTrigger>
+                    <TabsTrigger value="treasurer-cockpit" className="rounded-none px-3 py-1.5 text-xs font-medium text-muted-foreground data-[state=active]:border-b-2 data-[state=active]:border-foreground data-[state=active]:text-foreground data-[state=active]:shadow-none">Treasurer Cockpit</TabsTrigger>
                 </TabsList>
             </Tabs>
         </div>
