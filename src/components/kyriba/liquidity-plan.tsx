@@ -25,7 +25,7 @@ import { liquidityPlanData } from '@/lib/liquidity-plan-data';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Checkbox } from '../ui/checkbox';
 import AIPredictionModal from './ai-prediction-modal';
-import { Dialog, DialogContent } from '../ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 
 const initialVisibleLines: { [key: string]: boolean } = {
   'Final balance': true,
@@ -203,6 +203,9 @@ export default function LiquidityPlan() {
 
       <Dialog open={isAIPredictionOpen} onOpenChange={setIsAIPredictionOpen}>
         <DialogContent className="max-w-4xl h-[95vh] p-0 flex flex-col">
+            <DialogHeader className="p-0">
+              <DialogTitle className="sr-only">AI Prediction</DialogTitle>
+            </DialogHeader>
             <AIPredictionModal onClose={() => setIsAIPredictionOpen(false)} />
         </DialogContent>
       </Dialog>
