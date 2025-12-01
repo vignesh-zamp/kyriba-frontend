@@ -17,15 +17,18 @@ import {
   Info,
   Sigma,
   Star,
-  Calendar,
+  Calendar as CalendarIcon,
 } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import CashPositionChart from './charts/cash-position-chart';
 import React, { useState, useMemo } from 'react';
 import { generateCashPositionData } from '@/lib/kyriba-data-generator';
-import { format, eachDayOfInterval, lastDayOfMonth, startOfMonth, parse, addDays, eachWeekOfInterval, endOfWeek, startOfWeek } from 'date-fns';
+import { format, eachDayOfInterval, lastDayOfMonth, startOfMonth, addDays, eachWeekOfInterval } from 'date-fns';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { Calendar } from '../ui/calendar';
+import { cn } from '@/lib/utils';
 
 const fullMonthData = generateCashPositionData(new Date(2024, 2, 1));
 const march2024 = new Date(2024, 2, 15);
@@ -43,21 +46,24 @@ export default function CashPositionWorksheet() {
 
     let dateArray: Date[] = [];
     if (step === 'Day') {
-      dateArray = eachDayOfInterval({ start: validStartDate, end: validEndDate });
+      if (validStartDate <= validEndDate) {
+        dateArray = eachDayOfInterval({ start: validStartDate, end: validEndDate });
+      }
     } else { // Week
       const fridays: Date[] = [];
-      const interval = { start: validStartDate, end: validEndDate };
-      const weeks = eachWeekOfInterval(interval, { weekStartsOn: 1 /* Monday */ });
-      
-      weeks.forEach(weekStart => {
-        const friday = addDays(weekStart, 4);
-        if (friday >= validStartDate && friday <= validEndDate) {
-          fridays.push(friday);
-        }
-      });
-      dateArray = fridays;
+      if (validStartDate <= validEndDate) {
+        const interval = { start: validStartDate, end: validEndDate };
+        const weeks = eachWeekOfInterval(interval, { weekStartsOn: 1 /* Monday */ });
+        
+        weeks.forEach(weekStart => {
+          const friday = addDays(weekStart, 4);
+          if (friday >= validStartDate && friday <= validEndDate) {
+            fridays.push(friday);
+          }
+        });
+        dateArray = fridays;
+      }
     }
-
 
     const dateStrings = dateArray.map(d => format(d, 'yyyy-MM-dd'));
 
@@ -79,23 +85,6 @@ export default function CashPositionWorksheet() {
     return { dates: formattedDates, tableData: filteredTableData, finalBalance: filteredFinalBalance, chartData };
   }, [startDate, endDate, step]);
   
-
-  const handleApply = () => {
-    // This function is to re-trigger memoization if inputs were statefully complex.
-    // For now, simple state change is enough.
-  };
-
-  const handleDateChange = (setter: React.Dispatch<React.SetStateAction<Date>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    try {
-        const parsedDate = parse(e.target.value, 'MM/dd/yyyy', new Date());
-        if (!isNaN(parsedDate.getTime())) {
-            setter(parsedDate);
-        }
-    } catch (error) {
-        console.error("Invalid date format");
-    }
-  }
-
 
   return (
     <div className="bg-background text-foreground h-full flex flex-col">
@@ -140,25 +129,59 @@ export default function CashPositionWorksheet() {
             </div>
             <div className="flex flex-col">
                 <label>Start:</label>
-                <div className="flex items-center border rounded-md">
-                    <Input 
-                        value={format(startDate, 'MM/dd/yyyy')}
-                        onChange={handleDateChange(setStartDate)}
-                        className="border-none h-8" 
-                    />
-                    <Calendar className="h-4 w-4 mr-2" />
-                </div>
+                <Popover>
+                    <PopoverTrigger asChild>
+                        <Button
+                            variant={"outline"}
+                            className={cn(
+                                "w-[150px] justify-start text-left font-normal h-8 bg-white",
+                                !startDate && "text-muted-foreground"
+                            )}
+                        >
+                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            {startDate ? format(startDate, "MM/dd/yyyy") : <span>Pick a date</span>}
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0">
+                        <Calendar
+                            mode="single"
+                            selected={startDate}
+                            onSelect={(date) => date && setStartDate(date)}
+                            initialFocus
+                            month={march2024}
+                            fromDate={startDateOfMonth}
+                            toDate={endDateOfMonth}
+                        />
+                    </PopoverContent>
+                </Popover>
             </div>
             <div className="flex flex-col">
                 <label>End:</label>
-                <div className="flex items-center border rounded-md">
-                    <Input 
-                        value={format(endDate, 'MM/dd/yyyy')}
-                        onChange={handleDateChange(setEndDate)}
-                        className="border-none h-8" 
-                    />
-                    <Calendar className="h-4 w-4 mr-2" />
-                </div>
+                <Popover>
+                    <PopoverTrigger asChild>
+                        <Button
+                            variant={"outline"}
+                            className={cn(
+                                "w-[150px] justify-start text-left font-normal h-8 bg-white",
+                                !endDate && "text-muted-foreground"
+                            )}
+                        >
+                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            {endDate ? format(endDate, "MM/dd/yyyy") : <span>Pick a date</span>}
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0">
+                        <Calendar
+                            mode="single"
+                            selected={endDate}
+                            onSelect={(date) => date && setEndDate(date)}
+                            initialFocus
+                            month={march2024}
+                            fromDate={startDateOfMonth}
+                            toDate={endDateOfMonth}
+                        />
+                    </PopoverContent>
+                </Popover>
             </div>
             <div className="flex flex-col">
                 <label>Cur.:</label>
@@ -179,7 +202,7 @@ export default function CashPositionWorksheet() {
                     </SelectContent>
                 </Select>
             </div>
-            <Button size="sm" onClick={handleApply}>Apply</Button>
+            <Button size="sm">Apply</Button>
         </div>
       </div>
       <div className="px-6 py-4">
@@ -236,5 +259,3 @@ export default function CashPositionWorksheet() {
     </div>
   );
 }
-
-    

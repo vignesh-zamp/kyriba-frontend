@@ -26,14 +26,14 @@ interface CashPositionChartProps {
 }
 
 export default function CashPositionChart({ data }: CashPositionChartProps) {
-  const yDomain = useMemo(() => {
-    if (!data || data.length === 0) return [0, 30000000];
-    const values = data.map(item => item['Initial/Final']);
-    const min = Math.min(...values);
-    const max = Math.max(...values);
-    const buffer = (max - min) * 0.1;
-    return [Math.floor(min - buffer), Math.ceil(max + buffer)];
-  }, [data]);
+    const yDomain = useMemo(() => {
+        if (!data || data.length === 0) return [24000000, 26000000];
+        const values = data.map(item => item['Initial/Final']);
+        const min = Math.min(...values);
+        const max = Math.max(...values);
+        const buffer = (max - min) * 0.1 || 1000000; // Add buffer or default
+        return [Math.floor(min - buffer), Math.ceil(max + buffer)];
+      }, [data]);
 
   return (
     <div style={{ width: '100%', height: 300 }}>
