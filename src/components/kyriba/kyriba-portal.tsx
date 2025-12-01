@@ -146,9 +146,9 @@ export default function KyribaPortal() {
         </SidebarFooter>
       </Sidebar>
       <SidebarInset>
-        <main className="flex flex-1 flex-col">
+        <main className="flex flex-1 flex-col bg-[#E8E9EB]">
           <Header title={getHeaderTitle()} showStar={activeView === 'home'} activeView={activeView} />
-          <div className="flex-1 overflow-auto bg-white p-6">
+          <div className="flex-1 overflow-auto bg-[#E8E9EB] p-6">
             {activeView === 'menu-map' && <MenuMap onViewChange={handleViewChange} />}
             {activeView === 'home' && <HomeDashboard />}
             {activeView === 'bank-connectivity' && <BankConnectivityCockpit />}
@@ -249,3 +249,4 @@ const Header = ({ title, showStar, activeView }: { title: string, showStar?: boo
       </header>
   );
 };
+

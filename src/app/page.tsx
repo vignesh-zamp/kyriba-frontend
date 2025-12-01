@@ -1,9 +1,15 @@
-import KyribaPortal from '@/components/kyriba/kyriba-portal';
+'use client';
 
-export default function Home() {
-  return (
-    <div className="flex min-h-screen w-full flex-col bg-background">
-      <KyribaPortal />
-    </div>
-  );
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+
+export default function RootPage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace('/login');
+  }, [router]);
+
+  return null;
 }
+
