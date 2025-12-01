@@ -32,7 +32,7 @@ import {
   MessageCircleQuestion,
   Maximize,
 } from 'lucide-react';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { RequestsManagementIcon, TasksReportsIcon, BankRelationshipIcon, FraudComplianceIcon, CoreDataIcon, MyReceivablesIcon, AccountManagementIcon, BankActualIntegrationIcon } from './icons';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import MenuMap from './menu-map';
@@ -145,6 +145,9 @@ export default function KyribaPortal() {
             
             <Dialog open={isCashPositionOpen} onOpenChange={setIsCashPositionOpen}>
               <DialogContent className="max-w-7xl h-[90vh] flex flex-col p-0">
+                <DialogHeader className="sr-only">
+                  <DialogTitle>Cash Position Worksheet</DialogTitle>
+                </DialogHeader>
                 <CashPositionWorksheet />
               </DialogContent>
             </Dialog>
