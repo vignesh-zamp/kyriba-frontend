@@ -30,11 +30,11 @@ export default function HomeDashboard() {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex items-start justify-between">
         <div className="flex flex-col">
             <div className="flex items-center gap-2">
-                <Star className="h-5 w-5 text-gray-400" />
-                <h2 className="text-lg font-semibold">Reporting dashboard</h2>
+                <Star className="h-4 w-4 text-gray-400" />
+                <h2 className="text-sm font-semibold">Reporting dashboard</h2>
             </div>
             <Tabs value={activeTab} onValueChange={setActiveTab} className="mt-2">
                 <TabsList className="bg-transparent p-0">
