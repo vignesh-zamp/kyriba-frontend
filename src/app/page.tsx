@@ -1,3 +1,11 @@
+import LiveDemoModal from '@/components/layout/live-demo-modal';
+import KyribaPortal from '@/components/kyriba/kyriba-portal';
+
 export default function Home() {
-  return <></>;
+  return (
+    <div className="flex min-h-screen w-full flex-col bg-background">
+      <KyribaPortal />
+      <LiveDemoModal />
+    </div>
+  );
 }
