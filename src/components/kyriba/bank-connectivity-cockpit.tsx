@@ -79,9 +79,9 @@ export default function BankConnectivityCockpit() {
             <TableRow className="bg-gray-100 hover:bg-gray-100">
               <TableHead className="w-12 py-2"><Checkbox /></TableHead>
               <TableHead className="py-2">Bank</TableHead>
-              <TableHead className="py-2">Company</TableHead>
+              <TableHead className="py-2 text-xs">Company</TableHead>
               <TableHead className="py-2">Reporting type</TableHead>
-              <TableHead className="py-2">Bank account</TableHead>
+              <TableHead className="py-2 text-xs">Bank account</TableHead>
               <TableHead className="py-2">Account number</TableHead>
               <TableHead className="py-2">Balance reported today</TableHead>
               <TableHead className="py-2">Cur.</TableHead>
@@ -100,9 +100,9 @@ export default function BankConnectivityCockpit() {
                   </div>
                 </TableCell>
                 <TableCell className="py-2">{row.bank}</TableCell>
-                <TableCell className="py-2">{row.company || ''}</TableCell>
+                <TableCell className="py-2 text-xs">{row.company || ''}</TableCell>
                 <TableCell className="py-2">{row.reportingType}</TableCell>
-                <TableCell className="py-2">{row.bankAccount || ''}</TableCell>
+                <TableCell className="py-2 text-xs">{row.bankAccount || ''}</TableCell>
                 <TableCell className="py-2">{row.accountNumber || ''}</TableCell>
                 <TableCell className="py-2">
                   <div className="flex items-center">
