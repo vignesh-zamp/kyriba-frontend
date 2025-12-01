@@ -32,6 +32,7 @@ import {
   MessageCircleQuestion,
   Maximize,
 } from 'lucide-react';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { RequestsManagementIcon, TasksReportsIcon, BankRelationshipIcon, FraudComplianceIcon, CoreDataIcon, MyReceivablesIcon, AccountManagementIcon, BankActualIntegrationIcon } from './icons';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import MenuMap from './menu-map';
@@ -64,13 +65,18 @@ const sidebarFooterNav = [
   { id: 'support', icon: Settings, label: 'Support', tooltip: 'Support' },
 ]
 
-type ActiveView = 'menu-map' | 'home' | 'bank-connectivity' | 'cash-position';
+type ActiveView = 'menu-map' | 'home' | 'bank-connectivity';
 
 export default function KyribaPortal() {
   const [activeView, setActiveView] = React.useState<ActiveView>('menu-map');
+  const [isCashPositionOpen, setIsCashPositionOpen] = React.useState(false);
 
-  const handleViewChange = (view: ActiveView) => {
-    setActiveView(view);
+  const handleViewChange = (view: ActiveView | 'cash-position') => {
+    if (view === 'cash-position') {
+      setIsCashPositionOpen(true);
+    } else {
+      setActiveView(view);
+    }
   };
 
   const getHeaderTitle = () => {
@@ -80,8 +86,6 @@ export default function KyribaPortal() {
       case 'home':
         return 'Home Page';
       case 'bank-connectivity':
-        return '';
-      case 'cash-position':
         return '';
       default:
         return 'Menu Map';
@@ -138,7 +142,12 @@ export default function KyribaPortal() {
             {activeView === 'menu-map' && <MenuMap onViewChange={handleViewChange} />}
             {activeView === 'home' && <HomeDashboard />}
             {activeView === 'bank-connectivity' && <BankConnectivityCockpit />}
-            {activeView === 'cash-position' && <CashPositionWorksheet />}
+            
+            <Dialog open={isCashPositionOpen} onOpenChange={setIsCashPositionOpen}>
+              <DialogContent className="max-w-7xl h-[90vh] flex flex-col p-0">
+                <CashPositionWorksheet />
+              </DialogContent>
+            </Dialog>
           </div>
         </main>
       </SidebarInset>
