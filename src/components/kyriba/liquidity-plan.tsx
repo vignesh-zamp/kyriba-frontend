@@ -202,7 +202,7 @@ export default function LiquidityPlan() {
       </div>
 
       <Dialog open={isAIPredictionOpen} onOpenChange={setIsAIPredictionOpen}>
-        <DialogContent className="max-w-4xl p-0">
+        <DialogContent className="max-w-4xl h-[95vh] p-0 flex flex-col">
             <AIPredictionModal onClose={() => setIsAIPredictionOpen(false)} />
         </DialogContent>
       </Dialog>
