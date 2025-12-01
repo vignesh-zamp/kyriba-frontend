@@ -11,14 +11,14 @@ import {
 } from 'recharts';
 
 const data = [
-    { name: '5. Mar', 'Initial/Final': 10000000 },
-    { name: '6. Mar', 'Initial/Final': 12000000 },
-    { name: '7. Mar', 'Initial/Final': 15000000 },
-    { name: '8. Mar', 'Initial/Final': 18000000 },
-    { name: '9. Mar', 'Initial/Final': 20000000 },
-    { name: '10. Mar', 'Initial/Final': 22000000 },
+    { name: '5. Mar', 'Initial/Final': 25000000 },
+    { name: '6. Mar', 'Initial/Final': 25000000 },
+    { name: '7. Mar', 'Initial/Final': 25000000 },
+    { name: '8. Mar', 'Initial/Final': 25000000 },
+    { name: '9. Mar', 'Initial/Final': 25000000 },
+    { name: '10. Mar', 'Initial/Final': 25000000 },
     { name: '11. Mar', 'Initial/Final': 25000000 },
-    { name: '12. Mar', 'Initial/Final': 28000000 },
+    { name: '12. Mar', 'Initial/Final': 25000000 },
 ];
 
 const formatYAxis = (tickItem: number) => {
