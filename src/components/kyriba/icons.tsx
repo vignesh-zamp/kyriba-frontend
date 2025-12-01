@@ -1,27 +1,5 @@
 import type { SVGProps } from 'react';
 
-export const KyribaLogo = (props: SVGProps<SVGSVGElement>) => (
-    <svg width="120" height="40" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg" {...props}>
-      <defs>
-        <filter id="neon-glow" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-          <feMerge>
-            <feMergeNode in="coloredBlur"/>
-            <feMergeNode in="SourceGraphic"/>
-          </feMerge>
-        </filter>
-      </defs>
-      <g>
-        <path d="M20 2C9.02 2 0 11.02 0 22s9.02 20 20 20 20-9.02 20-20S30.98 2 20 2zm0 36c-8.82 0-16-7.18-16-16s7.18-16 16-16 16 7.18 16 16-7.18 16-16 16z" fill="#facc15"/>
-        <path d="M28.36 13.64c-1.56-1.56-3.61-2.42-5.7-2.42h-5.3v21.5h5.3c2.08 0 4.13-.86 5.69-2.42 1.56-1.56 2.43-3.61 2.43-5.7v-5.24c0-2.09-.87-4.14-2.42-5.7zm-2.83 11.31c-.98.98-2.28 1.52-3.63 1.52h-2.5V14.07h2.5c1.35 0 2.65.55 3.63 1.52.98.98 1.52 2.28 1.52 3.63v5.24c0 1.35-.55 2.65-1.52 3.63z" fill="#0c2340"/>
-      </g>
-      <text x="45" y="28" fontFamily="Inter, sans-serif" fontSize="22" fontWeight="bold" fill="white">
-        Kyriba
-      </text>
-    </svg>
-);
-
-
 export const BankActualIntegrationIcon = (props: SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M2 12h2.5a2.5 2.5 0 0 1 0 5H2Z"/><path d="M19.5 12H22a2.5 2.5 0 0 1 0 5h-2.5"/><path d="M12 2v2.5a2.5 2.5 0 0 1-5 0V2Z"/><path d="M12 19.5V22a2.5 2.5 0 0 1-5 0v-2.5"/><path d="M19.5 2a2.5 2.5 0 0 1 0 5H17"/><path d="M4.5 17A2.5 2.5 0 0 1 7 19.5"/><path d="M2 7.5A2.5 2.5 0 0 1 4.5 10"/><path d="M17 4.5A2.5 2.5 0 0 1 19.5 7"/><path d="m12 12-4 4"/><path d="m16 12-4-4"/><path d="M16 16l-4-4"/></svg>
   );

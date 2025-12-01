@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import {
   Sidebar,
   SidebarContent,
@@ -31,7 +32,7 @@ import {
   MessageCircleQuestion,
   Maximize,
 } from 'lucide-react';
-import { KyribaLogo, RequestsManagementIcon, TasksReportsIcon, BankRelationshipIcon, FraudComplianceIcon, CoreDataIcon, MyReceivablesIcon, AccountManagementIcon } from './icons';
+import { RequestsManagementIcon, TasksReportsIcon, BankRelationshipIcon, FraudComplianceIcon, CoreDataIcon, MyReceivablesIcon, AccountManagementIcon } from './icons';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import MenuMap from './menu-map';
 import { Button } from '../ui/button';
@@ -81,7 +82,7 @@ export default function KyribaPortal() {
     <SidebarProvider>
       <Sidebar collapsible="icon">
         <SidebarHeader>
-            <KyribaLogo className="h-10"/>
+            <Image src="/kyriba-logo.svg" alt="Kyriba Logo" width={120} height={40} />
         </SidebarHeader>
         <SidebarContent>
           <SidebarMenu>
