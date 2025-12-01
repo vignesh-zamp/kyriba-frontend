@@ -91,7 +91,7 @@ import { Input } from '../ui/input';
           {categories.map((category, index) => (
             <div key={category.title} className="flex items-start gap-4">
               <div className="flex flex-col items-center gap-4">
-                <Button className="w-full bg-blue-100 text-blue-800 hover:bg-blue-200 justify-center h-[96px] text-center flex items-center px-2">{category.title}</Button>
+                <Button className="w-full bg-blue-600 text-white hover:bg-blue-700 justify-center h-[96px] text-center flex items-center px-2">{category.title}</Button>
                 <div className="space-y-2 w-full">
                   {category.items.map((item) => (
                     <Card key={item.label} className="p-3 shadow-md hover:shadow-lg transition-shadow cursor-pointer h-[96px] flex flex-col items-center justify-center">
@@ -104,7 +104,7 @@ import { Input } from '../ui/input';
                 </div>
               </div>
               {index < categories.length - 1 && (
-                 <div className="flex-shrink-0 pt-4">
+                 <div className="flex-shrink-0 h-[96px] flex items-center">
                     <ArrowRight className="h-6 w-6 text-muted-foreground" />
                 </div>
               )}
