@@ -19,20 +19,6 @@ export default function LoginPage() {
   const router = useRouter();
   const { toast } = useToast();
 
-  useEffect(() => {
-    const getCurrentCode = () => {
-      const now = new Date();
-      const minuteOfDay = now.getHours() * 60 + now.getMinutes();
-      const currentCode = (codes as Codes)[minuteOfDay.toString()];
-      setCustomerCode(currentCode ? currentCode.toString() : '');
-    };
-
-    getCurrentCode();
-    const interval = setInterval(getCurrentCode, 60000); // Update every minute
-    
-    return () => clearInterval(interval);
-  }, []);
-
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     const now = new Date();
