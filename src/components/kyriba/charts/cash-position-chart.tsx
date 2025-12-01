@@ -1,4 +1,5 @@
 'use client';
+import { useMemo } from 'react';
 import {
   AreaChart,
   Area,
@@ -60,5 +61,3 @@ export default function CashPositionChart({ data }: CashPositionChartProps) {
     </div>
   );
 }
-
-    
