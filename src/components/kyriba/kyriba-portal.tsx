@@ -67,7 +67,7 @@ export default function KyribaPortal() {
         <SidebarHeader>
             <KyribaLogo className="h-10"/>
         </SidebarHeader>
-        <SidebarContent>
+        <SidebarContent className="flex-grow">
           <SidebarMenu>
             {sidebarNav.map((item, index) => (
               <SidebarMenuItem key={index}>
@@ -79,7 +79,7 @@ export default function KyribaPortal() {
             ))}
           </SidebarMenu>
         </SidebarContent>
-        <SidebarFooter className="mt-auto">
+        <SidebarFooter>
           <SidebarSeparator />
           <SidebarMenu>
           {sidebarFooterNav.map((item, index) => (
