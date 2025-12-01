@@ -1,79 +1,119 @@
 'use client';
 
-import { menuCategories } from '@/lib/kyriba-menu-data';
-import MenuNode from './menu-node';
-import type { MenuItem } from '@/lib/kyriba-menu-data';
+import {
+    AblDrawdownsIcon,
+    ActiveForecastIcon,
+    AutoPoolCashIcon,
+    BankActualIntegrationIcon,
+    CashFlowReliabilityCheckIcon,
+    CashPositionIcon,
+    CostOfDebtForecastIcon,
+    ForecastedInvoicesIcon,
+    GlobalLiquidityIcon,
+    HistoricalPredictiveModelingIcon,
+    ManageExtendedPaymentsIcon,
+    RequestDrawdownIcon,
+    SellInvoicesIcon,
+    TrackEarlyPaymentIcon,
+    TrackPayablesIcon,
+} from '@/components/kyriba/icons';
+import { ArrowRight, ChevronDown, Star } from 'lucide-react';
+import { Button } from '../ui/button';
+import { Card } from '../ui/card';
+import { Checkbox } from '../ui/checkbox';
+import { Input } from '../ui/input';
+  
+  const categories = [
+    {
+      title: 'Cash Management',
+      items: [
+        { icon: BankActualIntegrationIcon, label: 'Bank Actual Integration' },
+        { icon: CashPositionIcon, label: 'Cash Position' },
+        { icon: AutoPoolCashIcon, label: 'Auto Pool Cash' },
+      ],
+    },
+    {
+      title: 'Liquidity Planning',
+      items: [
+        { icon: ActiveForecastIcon, label: 'Active Forecast' },
+        { icon: HistoricalPredictiveModelingIcon, label: 'Historical Predictive Modeling' },
+        { icon: ForecastedInvoicesIcon, label: 'Forecasted Invoices' },
+      ],
+    },
+    {
+      title: 'Receivables Financing',
+      items: [
+        { icon: SellInvoicesIcon, label: 'Sell Invoices' },
+        { icon: RequestDrawdownIcon, label: 'Request Drawdown & Early Payment from Funder' },
+        { icon: AblDrawdownsIcon, label: 'ABL Drawdowns' },
+      ],
+    },
+    {
+        title: 'Supply Chain Financing',
+        items: [
+          { icon: TrackPayablesIcon, label: 'Track Payables' },
+          { icon: TrackEarlyPaymentIcon, label: 'Track Early Payment Request Funding from Bank' },
+          { icon: ManageExtendedPaymentsIcon, label: 'Manage Extended Payments to Funder' },
+        ],
+      },
+      {
+        title: 'Accuracy Tracking',
+        items: [
+          { icon: CashFlowReliabilityCheckIcon, label: 'Cash Flow Reliability Check' },
+          { icon: CostOfDebtForecastIcon, label: 'Cost of Debt Forecast' },
+          { icon: GlobalLiquidityIcon, label: 'Global Liquidity' },
+        ],
+      },
+  ];
+  
+  export default function MenuMap() {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+                <div className="relative w-72">
+                    <Input defaultValue="Bank statements" className="pr-10" />
+                    <ChevronDown className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                </div>
+                <Button variant="outline" className="text-muted-foreground">Search</Button>
+            </div>
+            <div className="flex items-center gap-2">
+                <Star className="h-5 w-5 text-muted-foreground" />
+                <label htmlFor="bookmarks" className="text-sm font-medium">Only Bookmarks</label>
+            </div>
+        </div>
 
-interface MenuMapProps {
-  searchTerm: string;
-}
+        <Card className="p-4">
+            <h2 className="text-sm font-semibold text-primary">Cash Conversion Cycle</h2>
+        </Card>
 
-const CategoryGroup = ({
-  name,
-  items,
-  searchTerm,
-}: {
-  name: string;
-  items: MenuItem[];
-  searchTerm: string;
-}) => (
-  <div className="flex flex-col items-center gap-4">
-    <h2 className="text-lg font-semibold text-foreground/80">{name}</h2>
-    <div className="flex flex-col items-center gap-8">
-      {items.map((item) => (
-        <MenuNode key={item.id} item={item} searchTerm={searchTerm} />
-      ))}
-    </div>
-  </div>
-);
-
-export default function MenuMap({ searchTerm }: MenuMapProps) {
-  const lowercasedSearchTerm = searchTerm.toLowerCase();
-
-  return (
-    <div className="relative w-full max-w-7xl">
-      <div className="absolute inset-0 z-0">
-        {/* Central Vertical Line */}
-        <div className="absolute top-0 bottom-0 left-1/2 w-0.5 -translate-x-1/2 bg-border"></div>
-        
-        {/* Top Horizontal Line */}
-        <div className="absolute top-[180px] left-[15%] right-[15%] h-0.5 bg-border"></div>
-        {/* Bottom Horizontal Line */}
-        <div className="absolute bottom-[240px] left-[25%] right-[25%] h-0.5 bg-border"></div>
-
-        {/* Connector lines to categories */}
-        <div className="absolute top-[180px] left-[16.66%] h-[80px] w-0.5 bg-border"></div>
-        <div className="absolute top-[180px] left-1/2 -translate-x-1/2 h-[120px] w-0.5 bg-border"></div>
-        <div className="absolute top-[180px] right-[16.66%] h-[80px] w-0.5 bg-border"></div>
-
-        <div className="absolute bottom-[240px] left-[33.33%] h-[150px] w-0.5 bg-border transform -translate-y-full"></div>
-        <div className="absolute bottom-[240px] right-[33.33%] h-[150px] w-0.5 bg-border transform -translate-y-full"></div>
+        <div className="grid grid-cols-5 gap-4 items-start">
+          {categories.map((category, index) => (
+            <div key={category.title} className="flex items-start gap-4">
+              <div className="flex flex-col items-center gap-4">
+                <Button className="w-full bg-blue-100 text-blue-800 hover:bg-blue-200 justify-center">{category.title}</Button>
+                <div className="space-y-2 w-full">
+                  {category.items.map((item) => (
+                    <Card key={item.label} className="p-3 shadow-md hover:shadow-lg transition-shadow cursor-pointer">
+                      <div className="flex flex-col items-center text-center gap-2">
+                        <item.icon className="h-8 w-8 text-blue-600" />
+                        <p className="text-xs font-medium">{item.label}</p>
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+              {index < categories.length - 1 && (
+                 <div className="flex-shrink-0 pt-4">
+                    <ArrowRight className="h-6 w-6 text-muted-foreground" />
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
-
-      <div className="relative z-10 flex flex-col items-center gap-20">
-        <div className="grid w-full grid-cols-3 gap-8 text-center">
-          <CategoryGroup name="Cash & Liquidity" items={menuCategories[0].items} searchTerm={searchTerm} />
-          <CategoryGroup name="Payments" items={menuCategories[1].items} searchTerm={searchTerm} />
-          <CategoryGroup name="Financial Transactions" items={menuCategories[2].items} searchTerm={searchTerm} />
-        </div>
-
-        <div className="flex items-center justify-center rounded-full bg-primary p-6 shadow-lg">
-           <h1 className="text-3xl font-bold text-primary-foreground">KYRIBA</h1>
-        </div>
-
-        <div className="grid w-full grid-cols-3 gap-8 text-center">
-           {/* Empty div for spacing */}
-           <div></div>
-           <CategoryGroup name="Connectivity" items={menuCategories[3].items} searchTerm={searchTerm} />
-           {/* Empty div for spacing */}
-           <div></div>
-        </div>
-
-        <div className="grid w-full grid-cols-2 gap-8 text-center">
-            <CategoryGroup name="Supply Chain Finance" items={menuCategories[4].items} searchTerm={searchTerm} />
-            <CategoryGroup name="Working Capital" items={menuCategories[5].items} searchTerm={searchTerm} />
-        </div>
-      </div>
-    </div>
-  );
-}
+    );
+  }
+  
+  
+  
