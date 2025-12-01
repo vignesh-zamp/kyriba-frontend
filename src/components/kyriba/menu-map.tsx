@@ -70,7 +70,7 @@ import { Input } from '../ui/input';
       },
   ];
   
-  type ActiveView = 'menu-map' | 'home' | 'bank-connectivity' | 'cash-position' | 'liquidity-plan' | 'variance-analysis' | 'drawdown-request';
+  type ActiveView = 'menu-map' | 'home' | 'bank-connectivity' | 'cash-position' | 'liquidity-plan' | 'variance-analysis' | 'drawdown-request' | 'track-payables';
 
   export default function MenuMap({ onViewChange }: { onViewChange: (view: ActiveView) => void }) {
     return (
@@ -118,6 +118,9 @@ import { Input } from '../ui/input';
                         }
                         if (item.id === 'request-drawdown') {
                             onViewChange('drawdown-request');
+                        }
+                        if (item.id === 'track-payables') {
+                            onViewChange('track-payables');
                         }
                       }}
                     >
