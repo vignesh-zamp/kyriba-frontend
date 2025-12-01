@@ -40,7 +40,7 @@ const CustomXAxisTick = (props: any) => {
     
     return (
       <g transform={`translate(${x},${y})`}>
-        <text x={0} y={0} dy={16} textAnchor="end" fill={isSpecial ? '#f472b6' : '#666'} transform="rotate(-35)">
+        <text x={0} y={0} dy={16} textAnchor="end" fill={isSpecial ? '#f472b6' : '#666'} transform="rotate(-35)" fontSize={12}>
           {payload.value}
         </text>
       </g>
@@ -55,9 +55,9 @@ export default function KeyInterestRateCurvesChart() {
         <LineChart data={data} margin={{ top: 5, right: 20, bottom: 40, left: 0 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" interval={0} tick={<CustomXAxisTick />} />
-          <YAxis domain={[1, 6]} tickFormatter={(tick) => tick.toFixed(2)} />
+          <YAxis domain={[1, 6]} tickFormatter={(tick) => tick.toFixed(2)} tick={{ fontSize: 12 }} />
           <Tooltip />
-          <Legend verticalAlign="bottom" wrapperStyle={{ paddingTop: '50px', fontSize: '12px' }} payload={[
+          <Legend verticalAlign="bottom" wrapperStyle={{ paddingTop: '50px', fontSize: '10px' }} payload={[
               { value: 'EUR Zero Coupon Curve - 12/01/2023 (Bid Zero coupon)', type: 'line', color: 'hsl(220 8% 70%)' },
               { value: 'GBP Zero Coupon Curve - 12/01/2023 (Bid Zero coupon)', type: 'line', color: 'hsl(220 8% 40%)' },
               { value: 'USD Zero Coupon Curve - 12/01/2023 (Bid Zero coupon)', type: 'line', color: '#f472b6' }

@@ -35,10 +35,10 @@ export default function DebtMaturitiesLadderChart() {
       <ResponsiveContainer>
         <BarChart data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" />
-          <YAxis tickFormatter={formatYAxis} domain={[-5000, 0]}/>
+          <XAxis dataKey="date" tick={{ fontSize: 12 }} />
+          <YAxis tickFormatter={formatYAxis} domain={[-5000, 0]} tick={{ fontSize: 12 }}/>
           <Tooltip formatter={formatTooltipValue}/>
-          <Legend wrapperStyle={{ paddingTop: '20px', fontSize: '12px' }} />
+          <Legend wrapperStyle={{ paddingTop: '20px', fontSize: '10px' }} />
           <Bar dataKey="Bond" stackId="a" fill="hsl(220 8% 92%)" />
           <Bar dataKey="ECA" stackId="a" fill="hsl(220 8% 80%)" />
           <Bar dataKey="Senior Note" stackId="a" fill="#f472b6" />
