@@ -38,32 +38,32 @@ import { Checkbox } from '../ui/checkbox';
 import { Input } from '../ui/input';
 
 const sidebarNav = [
-  { icon: Grid, label: 'Menu Map' },
-  { icon: Star, label: 'Shortcuts' },
-  { icon: Home, label: 'Home' },
-  { icon: RequestsManagementIcon, label: 'Requests management' },
-  { icon: LayoutDashboard, label: 'Dashboard' },
-  { icon: TasksReportsIcon, label: 'Tasks & Reports' },
-  { icon: BankRelationshipIcon, label: 'Bank Relationship' },
-  { icon: Wallet, label: 'Cash & Liquidity' },
-  { icon: Landmark, label: 'Financial Transactions' },
-  { icon: ArrowLeftRight, label: 'Payment' },
-  { icon: Landmark, label: 'Trade Solutions' },
-  { icon: FraudComplianceIcon, label: 'Fraud & Compliance' },
-  { icon: CoreDataIcon, label: 'Core Data' },
-  { icon: MyReceivablesIcon, label: 'My receivables' },
+  { icon: Grid, label: 'Menu Map', tooltip: 'Menu Map' },
+  { icon: Star, label: 'Shortcuts', tooltip: 'Shortcuts' },
+  { icon: Home, label: 'Home', tooltip: 'Home' },
+  { icon: RequestsManagementIcon, label: 'Requests management', tooltip: 'Requests management' },
+  { icon: LayoutDashboard, label: 'Dashboard', tooltip: 'Dashboard' },
+  { icon: TasksReportsIcon, label: 'Tasks & Reports', tooltip: 'Tasks & Reports' },
+  { icon: BankRelationshipIcon, label: 'Bank Relationship', tooltip: 'Bank Relationship' },
+  { icon: Wallet, label: 'Cash & Liquidity', tooltip: 'Cash & Liquidity' },
+  { icon: Landmark, label: 'Financial Transactions', tooltip: 'Financial Transactions' },
+  { icon: ArrowLeftRight, label: 'Payment', tooltip: 'Payment' },
+  { icon: Landmark, label: 'Trade Solutions', tooltip: 'Trade Solutions' },
+  { icon: FraudComplianceIcon, label: 'Fraud & Compliance', tooltip: 'Fraud & Compliance' },
+  { icon: CoreDataIcon, label: 'Core Data', tooltip: 'Core Data' },
+  { icon: MyReceivablesIcon, label: 'My receivables', tooltip: 'My receivables' },
 ];
 
 const sidebarFooterNav = [
-  { icon: User, label: 'My account' },
-  { icon: AccountManagementIcon, label: 'Account Management' },
-  { icon: Settings, label: 'Support' },
+  { icon: User, label: 'My account', tooltip: 'My account' },
+  { icon: AccountManagementIcon, label: 'Account Management', tooltip: 'Account Management' },
+  { icon: Settings, label: 'Support', tooltip: 'Support' },
 ]
 
 export default function KyribaPortal() {
   return (
     <SidebarProvider>
-      <Sidebar collapsible="none">
+      <Sidebar collapsible="icon">
         <SidebarHeader>
             <KyribaLogo className="h-10"/>
         </SidebarHeader>
@@ -71,20 +71,20 @@ export default function KyribaPortal() {
           <SidebarMenu>
             {sidebarNav.map((item, index) => (
               <SidebarMenuItem key={index}>
-                <SidebarMenuButton isActive={index === 0}>
+                <SidebarMenuButton isActive={index === 0} tooltip={item.tooltip}>
                   <item.icon />
                   <span>{item.label}</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ))}
+            <SidebarSeparator className="my-4" />
           </SidebarMenu>
         </SidebarContent>
         <SidebarFooter>
-          <SidebarSeparator />
           <SidebarMenu>
           {sidebarFooterNav.map((item, index) => (
               <SidebarMenuItem key={index}>
-                <SidebarMenuButton>
+                <SidebarMenuButton tooltip={item.tooltip}>
                   <item.icon />
                   <span>{item.label}</span>
                 </SidebarMenuButton>
@@ -109,7 +109,7 @@ const Header = () => {
     return (
         <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b bg-background px-6">
             <div className="flex items-center gap-4">
-                <SidebarTrigger className="md:hidden" />
+                <SidebarTrigger />
                 <h1 className="text-xl font-semibold">Menu Map</h1>
             </div>
             <div className="flex items-center gap-2">
