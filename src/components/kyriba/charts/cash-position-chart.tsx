@@ -10,22 +10,30 @@ import {
   CartesianGrid,
 } from 'recharts';
 
-const data = [
-    { name: '5. Mar', 'Initial/Final': 25000000 },
-    { name: '6. Mar', 'Initial/Final': 25000000 },
-    { name: '7. Mar', 'Initial/Final': 25000000 },
-    { name: '8. Mar', 'Initial/Final': 25000000 },
-    { name: '9. Mar', 'Initial/Final': 25000000 },
-    { name: '10. Mar', 'Initial/Final': 25000000 },
-    { name: '11. Mar', 'Initial/Final': 25000000 },
-    { name: '12. Mar', 'Initial/Final': 25000000 },
-];
-
 const formatYAxis = (tickItem: number) => {
+    if (tickItem === 0) return '0';
     return `${(tickItem / 1000000).toFixed(0)}M`;
 };
 
-export default function CashPositionChart() {
+interface ChartData {
+  name: string;
+  'Initial/Final': number;
+}
+
+interface CashPositionChartProps {
+  data: ChartData[];
+}
+
+export default function CashPositionChart({ data }: CashPositionChartProps) {
+  const yDomain = useMemo(() => {
+    if (!data || data.length === 0) return [0, 30000000];
+    const values = data.map(item => item['Initial/Final']);
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+    const buffer = (max - min) * 0.1;
+    return [Math.floor(min - buffer), Math.ceil(max + buffer)];
+  }, [data]);
+
   return (
     <div style={{ width: '100%', height: 300 }}>
       <ResponsiveContainer>
@@ -35,10 +43,11 @@ export default function CashPositionChart() {
           <YAxis 
             tickFormatter={formatYAxis} 
             tick={{ fontSize: 12 }} 
-            domain={[0, 30000000]}
+            domain={yDomain}
+            allowDataOverflow={true}
             label={{ value: 'Initial/Final', angle: -90, position: 'insideLeft', offset: -20, style: { textAnchor: 'middle', fontSize: '12px' } }}
           />
-          <Tooltip formatter={(value: number) => [`${value.toLocaleString()}`, 'Final Balance']} />
+          <Tooltip formatter={(value: number) => [`${value.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`, 'Final Balance']} />
           <Legend 
             verticalAlign="bottom"
             align="center"
@@ -51,3 +60,5 @@ export default function CashPositionChart() {
     </div>
   );
 }
+
+    

@@ -11,11 +11,9 @@ import {
   ChevronDown,
   FilePen,
   History,
-  ListFilter,
   MoreVertical,
   Play,
   Printer,
-  RefreshCw,
   Info,
   Sigma,
   Star,
@@ -24,30 +22,81 @@ import {
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import CashPositionChart from './charts/cash-position-chart';
+import React, { useState, useMemo } from 'react';
+import { generateCashPositionData } from '@/lib/kyriba-data-generator';
+import { format, eachDayOfInterval, lastDayOfMonth, startOfMonth, parse, addDays, eachWeekOfInterval, endOfWeek, startOfWeek } from 'date-fns';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 
-const data = [
-    { type: 'group', account: 'AU-AUD-HSBC', description: 'AU AUD Bank Account at HSBC', values: [0.00, 0.00, 0.00, 0.00, 0.00, 0.00] },
-    { type: 'item', account: 'KYRIBA-AU', description: 'Kyriba Technology Inc. Australia (AUS)', values: [0.00, 0.00, 0.00, 0.00, 0.00, 0.00], parent: 'AU-AUD-HSBC', color: 'bg-blue-900', textColor: 'text-white' },
-    { type: 'group', account: 'CAN-RBCA-CAD', description: 'CAN account at RBC-TOR in CAD', values: [538376.66, 538376.66, 538376.66, 538374.02, 538374.02, 538374.02] },
-    { type: 'item', account: 'CAN-RBCB-CAD', description: 'CAN Account at RBC-TOR in CAD (Bank Reporting)', values: [-35087.12, -35087.12, -35087.12, -35087.12, -35087.12, -35087.12], parent: 'CAN-RBCA-CAD', color: 'bg-pink-200' },
-    { type: 'item', account: 'KYRIBA-CA', description: 'Kyriba Ltd. Canada (CAN)', values: [503289.54, 503289.54, 503289.54, 503286.90, 503286.90, 503286.90], parent: 'CAN-RBCA-CAD', color: 'bg-blue-900', textColor: 'text-white' },
-    { type: 'group', account: 'DDA-A', description: 'DDA Account A', values: [500.00, 500.00, 500.00, 500.00, 500.00, 500.00] },
-    { type: 'group', account: 'DDA-B', description: 'DDA Account B', values: [450.00, 450.00, 450.00, 450.00, 450.00, 450.00] },
-    { type: 'group', account: 'HQ-CITI-AUD', description: 'HQ AUD Account at CITI (BRP)', values: [-47.32, -47.32, -47.32, -47.32, -47.32, -47.32], color: 'bg-pink-200' },
-    { type: 'group', account: 'HQ-CITI-CAD', description: 'HA Account with Citi CAD (BRP)', values: [-5.78, -5.78, -5.78, -5.78, -5.78, -5.78], color: 'bg-pink-200' },
-    { type: 'group', account: 'HQ-CITI-EUR', description: 'HQ EUR Account at CITI (BRP)', values: [-55.28, -55.28, -55.28, -55.28, -55.28, -55.28], color: 'bg-pink-200' },
-    { type: 'group', account: 'HQ-CITI-JPY', description: 'HQ JPY Account at CITI (BRP)', values: [35590.46, 35590.46, 35590.46, 35590.46, 35590.46, 35590.46], color: 'bg-green-200' },
-    { type: 'group', account: 'HQ-CITI-USD', description: 'HQ USD Account at Citi (BRP)', values: [-354.19, -354.19, -354.19, -354.19, -354.19, -354.19], color: 'bg-pink-200' },
-    { type: 'group', account: 'HQ1-BOFA-USD', description: 'HQ1 account at BOFA in USD', values: [-34438.20, -34438.97, -34453.67, -34495.08, -34539.27, -34539.27], expandable: true, color: 'bg-pink-200' },
-    { type: 'group', account: 'HQI-CITI-MXN', description: 'HQ1 account at CITI-NYC in MXN', values: [127922.86, 127922.93, 127923.00, 127923.08, 127923.14, 127923.20], color: 'bg-green-200' },
-    { type: 'group', account: 'HQI-CITI-PLN', description: 'HQ1 Account at CITI-PL in PLN', values: [-4.22, -4.22, -4.22, -4.22, -4.22, -4.22], color: 'bg-pink-200' },
-    { type: 'group', account: 'HQI-CITIBE-E', description: 'HQ1 Account at CITI-BE in EUR', values: [-21674.16, -21674.16, -21674.16, -21674.16, -21674.16, -21674.16], color: 'bg-pink-200' },
-];
-
-const dates = ['Tue 03/05/2024', 'Wed 03/06/2024', 'Thu 03/07/2024', 'Fri 03/08/2024', 'Mon 03/11/2024', 'Tue 03/12/2024'];
-const finalBalance = [25213916.40, 25231959.69, 25249989.45, 25304070.36, 25322069.43, 25340113.08];
+const fullMonthData = generateCashPositionData(new Date(2024, 2, 1));
+const march2024 = new Date(2024, 2, 15);
+const startDateOfMonth = startOfMonth(march2024);
+const endDateOfMonth = lastDayOfMonth(march2024);
 
 export default function CashPositionWorksheet() {
+  const [startDate, setStartDate] = useState<Date>(new Date(2024, 2, 5));
+  const [endDate, setEndDate] = useState<Date>(new Date(2024, 2, 12));
+  const [step, setStep] = useState<'Day' | 'Week'>('Day');
+
+  const { dates, tableData, finalBalance, chartData } = useMemo(() => {
+    const validStartDate = startDate > endDateOfMonth ? endDateOfMonth : startDate;
+    const validEndDate = endDate < startDateOfMonth ? startDateOfMonth : endDate;
+
+    let dateArray: Date[] = [];
+    if (step === 'Day') {
+      dateArray = eachDayOfInterval({ start: validStartDate, end: validEndDate });
+    } else { // Week
+      const fridays: Date[] = [];
+      const interval = { start: validStartDate, end: validEndDate };
+      const weeks = eachWeekOfInterval(interval, { weekStartsOn: 1 /* Monday */ });
+      
+      weeks.forEach(weekStart => {
+        const friday = addDays(weekStart, 4);
+        if (friday >= validStartDate && friday <= validEndDate) {
+          fridays.push(friday);
+        }
+      });
+      dateArray = fridays;
+    }
+
+
+    const dateStrings = dateArray.map(d => format(d, 'yyyy-MM-dd'));
+
+    const filteredTableData = fullMonthData.accounts.map(account => {
+      const values = dateStrings.map(dateStr => account.values[dateStr] || 0);
+      const total = values.reduce((acc, val) => acc + val, 0);
+      return { ...account, values, total };
+    });
+
+    const filteredFinalBalance = dateStrings.map(dateStr => fullMonthData.finalBalance[dateStr] || 0);
+
+    const formattedDates = dateArray.map(d => format(d, 'EEE MM/dd/yyyy'));
+
+    const chartData = dateArray.map((date, index) => ({
+      name: format(date, 'd. MMM'),
+      'Initial/Final': filteredFinalBalance[index],
+    }));
+
+    return { dates: formattedDates, tableData: filteredTableData, finalBalance: filteredFinalBalance, chartData };
+  }, [startDate, endDate, step]);
+  
+
+  const handleApply = () => {
+    // This function is to re-trigger memoization if inputs were statefully complex.
+    // For now, simple state change is enough.
+  };
+
+  const handleDateChange = (setter: React.Dispatch<React.SetStateAction<Date>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+        const parsedDate = parse(e.target.value, 'MM/dd/yyyy', new Date());
+        if (!isNaN(parsedDate.getTime())) {
+            setter(parsedDate);
+        }
+    } catch (error) {
+        console.error("Invalid date format");
+    }
+  }
+
+
   return (
     <div className="bg-background text-foreground h-full flex flex-col">
       <div className="border-b">
@@ -92,14 +141,22 @@ export default function CashPositionWorksheet() {
             <div className="flex flex-col">
                 <label>Start:</label>
                 <div className="flex items-center border rounded-md">
-                    <Input defaultValue="03/05/2024" className="border-none h-8" />
+                    <Input 
+                        value={format(startDate, 'MM/dd/yyyy')}
+                        onChange={handleDateChange(setStartDate)}
+                        className="border-none h-8" 
+                    />
                     <Calendar className="h-4 w-4 mr-2" />
                 </div>
             </div>
             <div className="flex flex-col">
                 <label>End:</label>
                 <div className="flex items-center border rounded-md">
-                    <Input defaultValue="03/12/2024" className="border-none h-8" />
+                    <Input 
+                        value={format(endDate, 'MM/dd/yyyy')}
+                        onChange={handleDateChange(setEndDate)}
+                        className="border-none h-8" 
+                    />
                     <Calendar className="h-4 w-4 mr-2" />
                 </div>
             </div>
@@ -112,29 +169,34 @@ export default function CashPositionWorksheet() {
             </div>
             <div className="flex flex-col">
                 <label>Step:</label>
-                <div className="flex items-center border rounded-md">
-                    <Input defaultValue="Day" className="border-none h-8" />
-                    <ChevronDown className="h-4 w-4 mr-2" />
-                </div>
+                <Select value={step} onValueChange={(value: 'Day' | 'Week') => setStep(value)}>
+                    <SelectTrigger className="h-8 w-[80px]">
+                        <SelectValue placeholder="Step" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="Day">Day</SelectItem>
+                        <SelectItem value="Week">Week</SelectItem>
+                    </SelectContent>
+                </Select>
             </div>
-            <Button size="sm">Apply</Button>
+            <Button size="sm" onClick={handleApply}>Apply</Button>
         </div>
       </div>
       <div className="px-6 py-4">
-        <CashPositionChart />
+        <CashPositionChart data={chartData} />
       </div>
       <div className="flex-grow overflow-auto px-6">
         <Table className="w-full whitespace-nowrap">
           <TableHeader>
             <TableRow className="bg-gray-100 hover:bg-gray-100 sticky top-0">
-              <TableHead className="py-2 text-xs w-1/4">03/05/2024 - 03/12/2024</TableHead>
+              <TableHead className="py-2 text-xs w-1/4">{format(startDate, 'MM/dd/yyyy')} - {format(endDate, 'MM/dd/yyyy')}</TableHead>
               <TableHead className="py-2 text-xs w-1/4">Account description</TableHead>
               {dates.map(date => <TableHead key={date} className="text-right py-2">{date}</TableHead>)}
               <TableHead className="text-right py-2">Tot.</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.map((row, index) => (
+            {tableData.map((row, index) => (
               <TableRow key={index} className={row.color ? row.color : 'odd:bg-white even:bg-gray-50'}>
                 <TableCell className={`py-1 ${row.textColor || ''}`}>
                   <div className="flex items-center gap-2">
@@ -149,7 +211,9 @@ export default function CashPositionWorksheet() {
                         {value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </TableCell>
                 ))}
-                <TableCell className="text-right py-1"></TableCell>
+                <TableCell className={`text-right py-1 font-bold ${row.textColor || ''}`}>
+                  {row.total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                </TableCell>
               </TableRow>
             ))}
             <TableRow className="bg-blue-600 text-white hover:bg-blue-700">
@@ -159,7 +223,9 @@ export default function CashPositionWorksheet() {
                         {value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </TableCell>
                 ))}
-                <TableCell className="text-right py-1"></TableCell>
+                <TableCell className="text-right py-1 font-bold">
+                  {finalBalance.reduce((a, b) => a + b, 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                </TableCell>
             </TableRow>
           </TableBody>
         </Table>
@@ -170,3 +236,5 @@ export default function CashPositionWorksheet() {
     </div>
   );
 }
+
+    
