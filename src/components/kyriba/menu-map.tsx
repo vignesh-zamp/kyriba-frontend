@@ -20,53 +20,57 @@ import {
 import { ArrowRight, ChevronDown, Star } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Card } from '../ui/card';
-import { Checkbox } from '../ui/checkbox';
 import { Input } from '../ui/input';
   
   const categories = [
     {
       title: 'Cash Management',
+      id: 'cash-management',
       items: [
-        { icon: BankActualIntegrationIcon, label: 'Bank Actual Integration' },
-        { icon: CashPositionIcon, label: 'Cash Position' },
-        { icon: AutoPoolCashIcon, label: 'Auto Pool Cash' },
+        { id: 'bank-actual-integration', icon: BankActualIntegrationIcon, label: 'Bank Actual Integration' },
+        { id: 'cash-position', icon: CashPositionIcon, label: 'Cash Position' },
+        { id: 'auto-pool-cash', icon: AutoPoolCashIcon, label: 'Auto Pool Cash' },
       ],
     },
     {
       title: 'Liquidity Planning',
+      id: 'liquidity-planning',
       items: [
-        { icon: ActiveForecastIcon, label: 'Active Forecast' },
-        { icon: HistoricalPredictiveModelingIcon, label: 'Historical Predictive Modeling' },
-        { icon: ForecastedInvoicesIcon, label: 'Forecasted Invoices' },
+        { id: 'active-forecast', icon: ActiveForecastIcon, label: 'Active Forecast' },
+        { id: 'historical-predictive-modeling', icon: HistoricalPredictiveModelingIcon, label: 'Historical Predictive Modeling' },
+        { id: 'forecasted-invoices', icon: ForecastedInvoicesIcon, label: 'Forecasted Invoices' },
       ],
     },
     {
       title: 'Receivables Financing',
+      id: 'receivables-financing',
       items: [
-        { icon: SellInvoicesIcon, label: 'Sell Invoices' },
-        { icon: RequestDrawdownIcon, label: 'Request Drawdown & Early Payment from Funder' },
-        { icon: AblDrawdownsIcon, label: 'ABL Drawdowns' },
+        { id: 'sell-invoices', icon: SellInvoicesIcon, label: 'Sell Invoices' },
+        { id: 'request-drawdown', icon: RequestDrawdownIcon, label: 'Request Drawdown & Early Payment from Funder' },
+        { id: 'abl-drawdowns', icon: AblDrawdownsIcon, label: 'ABL Drawdowns' },
       ],
     },
     {
         title: 'Supply Chain Financing',
+        id: 'supply-chain-financing',
         items: [
-          { icon: TrackPayablesIcon, label: 'Track Payables' },
-          { icon: TrackEarlyPaymentIcon, label: 'Track Early Payment Request Funding from Bank' },
-          { icon: ManageExtendedPaymentsIcon, label: 'Manage Extended Payments to Funder' },
+          { id: 'track-payables', icon: TrackPayablesIcon, label: 'Track Payables' },
+          { id: 'track-early-payment', icon: TrackEarlyPaymentIcon, label: 'Track Early Payment Request Funding from Bank' },
+          { id: 'manage-extended-payments', icon: ManageExtendedPaymentsIcon, label: 'Manage Extended Payments to Funder' },
         ],
       },
       {
         title: 'Accuracy Tracking',
+        id: 'accuracy-tracking',
         items: [
-          { icon: CashFlowReliabilityCheckIcon, label: 'Cash Flow Reliability Check' },
-          { icon: CostOfDebtForecastIcon, label: 'Cost of Debt Forecast' },
-          { icon: GlobalLiquidityIcon, label: 'Global Liquidity' },
+          { id: 'cash-flow-reliability-check', icon: CashFlowReliabilityCheckIcon, label: 'Cash Flow Reliability Check' },
+          { id: 'cost-of-debt-forecast', icon: CostOfDebtForecastIcon, label: 'Cost of Debt Forecast' },
+          { id: 'global-liquidity', icon: GlobalLiquidityIcon, label: 'Global Liquidity' },
         ],
       },
   ];
   
-  export default function MenuMap() {
+  export default function MenuMap({ onViewChange }: { onViewChange: (view: 'bank-connectivity') => void }) {
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between">
@@ -84,7 +88,7 @@ import { Input } from '../ui/input';
         </div>
 
         <Card className="p-4 w-fit">
-            <h2 className="text-sm font-semibold">Cash Conversion Cycle</h2>
+            <h2 className="text-sm font-semibold text-black">Cash Conversion Cycle</h2>
         </Card>
 
         <div className="grid grid-cols-5 gap-4 items-start">
@@ -94,7 +98,15 @@ import { Input } from '../ui/input';
                 <Button className="w-full bg-blue-600 text-white hover:bg-blue-700 justify-center h-[96px] text-center flex items-center px-2">{category.title}</Button>
                 <div className="space-y-2 w-full">
                   {category.items.map((item) => (
-                    <Card key={item.label} className="p-3 shadow-md hover:shadow-lg transition-shadow cursor-pointer h-[96px] flex flex-col items-center justify-center">
+                    <Card 
+                      key={item.label} 
+                      className="p-3 shadow-md hover:shadow-lg transition-shadow cursor-pointer h-[96px] flex flex-col items-center justify-center"
+                      onClick={() => {
+                        if (item.id === 'bank-actual-integration') {
+                          onViewChange('bank-connectivity');
+                        }
+                      }}
+                    >
                       <div className="flex flex-col items-center text-center gap-2">
                         <item.icon className="h-8 w-8 text-blue-600" />
                         <p className="text-xs font-medium">{item.label}</p>
@@ -104,7 +116,7 @@ import { Input } from '../ui/input';
                 </div>
               </div>
               {index < categories.length - 1 && (
-                 <div className="flex-shrink-0 h-[96px] flex items-center">
+                 <div className="flex-shrink-0 h-[96px] flex items-center justify-center">
                     <ArrowRight className="h-6 w-6 text-muted-foreground" />
                 </div>
               )}
