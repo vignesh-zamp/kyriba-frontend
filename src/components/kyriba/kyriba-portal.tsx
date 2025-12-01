@@ -43,6 +43,7 @@ import BankConnectivityCockpit from './bank-connectivity-cockpit';
 import CashPositionWorksheet from './cash-position-worksheet';
 import LiquidityPlan from './liquidity-plan';
 import VarianceAnalysisWorksheet from './variance-analysis-worksheet';
+import VarianceAnalysisResult from './variance-analysis-result';
 
 const sidebarNav = [
   { id: 'menu-map', icon: Grid, label: 'Menu Map', tooltip: 'Menu Map' },
@@ -68,7 +69,7 @@ const sidebarFooterNav = [
 ]
 
 type ActiveView = 'menu-map' | 'home' | 'bank-connectivity';
-type OpenModal = 'none' | 'cash-position' | 'liquidity-plan' | 'variance-analysis';
+type OpenModal = 'none' | 'cash-position' | 'liquidity-plan' | 'variance-analysis' | 'variance-analysis-result';
 
 export default function KyribaPortal() {
   const [activeView, setActiveView] = React.useState<ActiveView>('menu-map');
@@ -81,6 +82,10 @@ export default function KyribaPortal() {
       setActiveView(view);
     }
   };
+
+  const showVarianceResult = () => {
+    setOpenModal('variance-analysis-result');
+  }
 
   const getHeaderTitle = () => {
     switch (activeView) {
@@ -169,7 +174,16 @@ export default function KyribaPortal() {
                 <DialogHeader className="p-0">
                   <DialogTitle className="sr-only">Variance Analysis Worksheet</DialogTitle>
                 </DialogHeader>
-                <VarianceAnalysisWorksheet onClose={() => setOpenModal('none')} />
+                <VarianceAnalysisWorksheet onClose={() => setOpenModal('none')} onApply={showVarianceResult} />
+              </DialogContent>
+            </Dialog>
+            
+            <Dialog open={openModal === 'variance-analysis-result'} onOpenChange={(isOpen) => !isOpen && setOpenModal('none')}>
+              <DialogContent className="max-w-[95vw] w-full h-[90vh] flex flex-col p-0">
+                <DialogHeader className="p-0">
+                  <DialogTitle className="sr-only">Variance Analysis Result</DialogTitle>
+                </DialogHeader>
+                <VarianceAnalysisResult onBack={() => setOpenModal('variance-analysis')} />
               </DialogContent>
             </Dialog>
           </div>

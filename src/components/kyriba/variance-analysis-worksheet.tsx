@@ -39,11 +39,17 @@ const DatePicker = ({ date, setDate }: { date?: Date, setDate: (date?: Date) => 
     );
 };
 
-export default function VarianceAnalysisWorksheet({ onClose }: { onClose: () => void }) {
+export default function VarianceAnalysisWorksheet({ onClose, onApply }: { onClose: () => void; onApply: () => void; }) {
     const [startDate1, setStartDate1] = useState<Date | undefined>(new Date(2023, 6, 21));
     const [endDate1, setEndDate1] = useState<Date | undefined>(new Date(2023, 9, 20));
     const [startDate2, setStartDate2] = useState<Date | undefined>(new Date(2023, 6, 20));
     const [endDate2, setEndDate2] = useState<Date | undefined>(new Date(2023, 9, 20));
+
+    const handleApply = () => {
+        onClose();
+        onApply();
+    };
+
 
     return (
         <div className="bg-white rounded-lg shadow-xl text-xs flex flex-col h-full">
@@ -110,7 +116,7 @@ export default function VarianceAnalysisWorksheet({ onClose }: { onClose: () => 
             </div>
 
             <div className="flex justify-end items-center p-4 border-t mt-auto gap-2">
-                <Button onClick={onClose} variant="default">Apply</Button>
+                <Button onClick={handleApply} variant="default">Apply</Button>
                 <Button onClick={onClose} variant="outline">Cancel</Button>
             </div>
         </div>
