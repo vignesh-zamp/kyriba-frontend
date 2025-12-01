@@ -66,6 +66,7 @@ export default function LiquidityPlan() {
             <h2 className="text-sm font-semibold">
               Liquidity plan
             </h2>
+            <Button size="sm" className="bg-black text-white hover:bg-gray-800">AI Prediction</Button>
           </div>
           <div className="flex items-center gap-2 text-muted-foreground">
             <Download className="h-4 w-4 cursor-pointer" />
