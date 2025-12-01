@@ -20,12 +20,16 @@ export default function LoginPage() {
   const { toast } = useToast();
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const getCurrentCode = () => {
       const now = new Date();
       const minuteOfDay = now.getHours() * 60 + now.getMinutes();
       const currentCode = (codes as Codes)[minuteOfDay.toString()];
-      setCustomerCode(currentCode.toString());
-    }, 1000);
+      setCustomerCode(currentCode ? currentCode.toString() : '');
+    };
+
+    getCurrentCode();
+    const interval = setInterval(getCurrentCode, 60000); // Update every minute
+    
     return () => clearInterval(interval);
   }, []);
 
@@ -33,7 +37,7 @@ export default function LoginPage() {
     e.preventDefault();
     const now = new Date();
     const minuteOfDay = now.getHours() * 60 + now.getMinutes();
-    const correctCode = (codes as Codes)[minuteOfDay.toString()].toString();
+    const correctCode = (codes as Codes)[minuteOfDay.toString()]?.toString();
 
     if (username === 'airbnb@kyriba.com' && password === 'demo123' && customerCode === correctCode) {
       router.push('/home');
@@ -48,10 +52,22 @@ export default function LoginPage() {
 
   return (
     <div className="flex min-h-screen">
-      <div className="w-1/2 flex flex-col justify-center items-center bg-white p-12">
-        <div className="w-full max-w-sm">
-          <Image src="/kyriba-logo.svg" alt="Kyriba Logo" width={120} height={40} className="mb-8" />
-          <h1 className="text-sm font-semibold text-gray-500 mb-6">ACCOUNT LOGIN</h1>
+      <div className="w-1/2 flex flex-col justify-center items-center bg-white p-12 relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-32 bg-white">
+          <div 
+            className="absolute -top-16 left-1/2 -translate-x-1/2 w-0 h-0"
+            style={{
+              borderLeft: '150px solid transparent',
+              borderRight: '150px solid transparent',
+              borderBottom: '100px solid #2c3e50'
+            }}
+          ></div>
+        </div>
+        <div className="w-full max-w-sm z-10">
+          <div className="flex justify-center mb-8">
+            <Image src="/kyriba-logo.svg" alt="Kyriba Logo" width={120} height={40} className="filter brightness-0 invert" />
+          </div>
+          <h1 className="text-sm font-semibold text-gray-500 mb-6 text-center">ACCOUNT LOGIN</h1>
           
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
@@ -61,7 +77,7 @@ export default function LoginPage() {
                 type="text" 
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="bg-gray-100 border-none"
+                className="bg-gray-100 border-none text-black"
               />
             </div>
             <div>
@@ -71,7 +87,7 @@ export default function LoginPage() {
                 type="text"
                 value={customerCode}
                 onChange={(e) => setCustomerCode(e.target.value)}
-                className="bg-gray-100 border-none"
+                className="bg-gray-100 border-none text-black"
               />
             </div>
             <div>
@@ -81,7 +97,7 @@ export default function LoginPage() {
                 type="password" 
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="bg-gray-100 border-none"
+                className="bg-gray-100 border-none text-black"
               />
             </div>
             
@@ -120,4 +136,3 @@ export default function LoginPage() {
     </div>
   );
 }
-
