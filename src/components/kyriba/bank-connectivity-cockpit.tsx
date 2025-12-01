@@ -56,7 +56,7 @@ export default function BankConnectivityCockpit() {
       <div className="border-b">
         <div className="px-6 py-2 flex justify-between items-center">
           <div className="flex items-center gap-4">
-            <h2 className="text-lg font-semibold">
+            <h2 className="text-sm font-semibold">
               Bank connectivity cockpit - Bank connectivity cockpit
             </h2>
             <div className="flex items-center gap-2 text-muted-foreground">
@@ -137,5 +137,3 @@ export default function BankConnectivityCockpit() {
     </div>
   );
 }
-
-    
