@@ -2,6 +2,7 @@
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ChevronDown, Star } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const data = [
     { category: 'TOTAL OPERATING FLOWS', isTotal: true, data1: -1820627, data2: 694320, varAmount: -2514947, varPercent: -362.22, data1_2: 2304819, data2_2: 1170100 },
