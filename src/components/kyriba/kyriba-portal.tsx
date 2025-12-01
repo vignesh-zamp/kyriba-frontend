@@ -39,6 +39,7 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import HomeDashboard from './home-dashboard';
 import BankConnectivityCockpit from './bank-connectivity-cockpit';
+import CashPositionWorksheet from './cash-position-worksheet';
 
 const sidebarNav = [
   { id: 'menu-map', icon: Grid, label: 'Menu Map', tooltip: 'Menu Map' },
@@ -63,7 +64,7 @@ const sidebarFooterNav = [
   { id: 'support', icon: Settings, label: 'Support', tooltip: 'Support' },
 ]
 
-type ActiveView = 'menu-map' | 'home' | 'bank-connectivity';
+type ActiveView = 'menu-map' | 'home' | 'bank-connectivity' | 'cash-position';
 
 export default function KyribaPortal() {
   const [activeView, setActiveView] = React.useState<ActiveView>('menu-map');
@@ -79,6 +80,8 @@ export default function KyribaPortal() {
       case 'home':
         return 'Home Page';
       case 'bank-connectivity':
+        return '';
+      case 'cash-position':
         return '';
       default:
         return 'Menu Map';
@@ -100,7 +103,7 @@ export default function KyribaPortal() {
                   tooltip={item.tooltip}
                   onClick={() => {
                     if (item.id === 'home' || item.id === 'menu-map') {
-                      setActiveView(item.id);
+                      setActiveView(item.id as ActiveView);
                     }
                     if (item.id === 'cash-liquidity') {
                       setActiveView('bank-connectivity');
@@ -135,6 +138,7 @@ export default function KyribaPortal() {
             {activeView === 'menu-map' && <MenuMap onViewChange={handleViewChange} />}
             {activeView === 'home' && <HomeDashboard />}
             {activeView === 'bank-connectivity' && <BankConnectivityCockpit />}
+            {activeView === 'cash-position' && <CashPositionWorksheet />}
           </div>
         </main>
       </SidebarInset>

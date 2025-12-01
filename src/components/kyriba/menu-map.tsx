@@ -70,7 +70,9 @@ import { Input } from '../ui/input';
       },
   ];
   
-  export default function MenuMap({ onViewChange }: { onViewChange: (view: 'bank-connectivity') => void }) {
+  type ActiveView = 'menu-map' | 'home' | 'bank-connectivity' | 'cash-position';
+
+  export default function MenuMap({ onViewChange }: { onViewChange: (view: ActiveView) => void }) {
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between">
@@ -104,6 +106,9 @@ import { Input } from '../ui/input';
                       onClick={() => {
                         if (item.id === 'bank-actual-integration') {
                           onViewChange('bank-connectivity');
+                        }
+                        if (item.id === 'cash-position') {
+                          onViewChange('cash-position');
                         }
                       }}
                     >
