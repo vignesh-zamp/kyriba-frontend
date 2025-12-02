@@ -8,20 +8,17 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import {
-  ChevronDown,
-  Star,
   Download,
   Upload,
   Sigma,
   Play,
-  ArrowDownUp,
-  Info
+  Star,
 } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import LiquidityPlanChart from './charts/liquidity-plan-chart';
-import React, { useState, useMemo } from 'react';
-import { liquidityPlanData } from '@/lib/liquidity-plan-data';
+import React, { useState, useMemo, useEffect } from 'react';
+import { liquidityPlanData as staticData } from '@/lib/liquidity-plan-data';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Checkbox } from '../ui/checkbox';
 import AIPredictionModal from './ai-prediction-modal';
@@ -39,25 +36,76 @@ const initialVisibleLines: { [key: string]: boolean } = {
   'TOTAL OPERATING FLOWS': false,
 };
 
+const editableRows = ['Payroll', 'Taxes', 'VAT Collected'];
+
 export default function LiquidityPlan() {
   const [visibleLines, setVisibleLines] = useState(initialVisibleLines);
   const [isAIPredictionOpen, setIsAIPredictionOpen] = useState(false);
+  const [tableData, setTableData] = useState(staticData.tableRows);
+  const [editingCell, setEditingCell] = useState<{ rowIndex: number, month: string } | null>(null);
+  const [inputValue, setInputValue] = useState('');
+  const [dirtyRows, setDirtyRows] = useState<{ [key: number]: boolean }>({});
+
+  const series = useMemo(() => {
+    const newSeries: { [key: string]: { [key: string]: number } } = {};
+    tableData.forEach(row => {
+        if (row.label in staticData.series) {
+            newSeries[row.label] = row.values;
+        }
+    });
+    // Fill missing series from static data to avoid crashes if a row is not in tableData
+    Object.keys(staticData.series).forEach(key => {
+        if (!newSeries[key]) {
+            newSeries[key] = staticData.series[key as keyof typeof staticData.series];
+        }
+    })
+    return newSeries;
+  }, [tableData]);
 
   const chartData = useMemo(() => {
-    return liquidityPlanData.months.map(month => {
+    return staticData.months.map(month => {
       const monthData: { [key: string]: string | number } = { name: month };
       Object.keys(visibleLines).forEach(line => {
         if (visibleLines[line]) {
-          const key = line as keyof typeof liquidityPlanData.series;
-          monthData[line] = liquidityPlanData.series[key][month] || 0;
+          monthData[line] = series[line as keyof typeof series]?.[month] || 0;
         }
       });
       return monthData;
     });
-  }, [visibleLines]);
+  }, [visibleLines, series]);
 
   const handleCheckboxChange = (line: string, checked: boolean) => {
     setVisibleLines(prev => ({ ...prev, [line]: checked }));
+  };
+
+  const handleCellClick = (rowIndex: number, month: string, currentValue: number) => {
+    if (editableRows.includes(tableData[rowIndex].label)) {
+        setEditingCell({ rowIndex, month });
+        setInputValue(currentValue.toString());
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleInputBlur = () => {
+    if (editingCell) {
+        const { rowIndex, month } = editingCell;
+        const newValue = parseFloat(inputValue);
+        if (!isNaN(newValue) && tableData[rowIndex].values[month] !== newValue) {
+            const newData = [...tableData];
+            newData[rowIndex].values[month] = newValue;
+            setTableData(newData);
+            setDirtyRows(prev => ({ ...prev, [rowIndex]: true }));
+        }
+        setEditingCell(null);
+    }
+  };
+  
+  const handleApplyChanges = (rowIndex: number) => {
+    // In a real app, you might persist this change
+    setDirtyRows(prev => ({ ...prev, [rowIndex]: false }));
   };
 
   return (
@@ -169,29 +217,52 @@ export default function LiquidityPlan() {
         <Table className="w-full whitespace-nowrap">
           <TableHeader className="sticky top-0 z-10">
             <TableRow className="bg-gray-100 hover:bg-gray-100">
-              <TableHead className="py-2 text-xs w-[200px]"></TableHead>
+              <TableHead className="py-2 text-xs w-[250px]"></TableHead>
               <TableHead className="py-2 text-xs w-[100px]"></TableHead>
-              {liquidityPlanData.months.map(month => <TableHead key={month} className="text-right py-2">{month}</TableHead>)}
+              {staticData.months.map(month => <TableHead key={month} className="text-right py-2">{month}</TableHead>)}
             </TableRow>
           </TableHeader>
           <TableBody>
-            {liquidityPlanData.tableRows.map((row, index) => (
+            {tableData.map((row, index) => (
               <TableRow key={index} className={row.bgColor || 'odd:bg-white even:bg-gray-50'}>
                 <TableCell className={`py-1 ${row.textColor || ''}`}>
                   <div className="flex items-center gap-2" style={{ paddingLeft: `${row.indent || 0}rem`}}>
                     {row.isGroup && <Play className="h-3 w-3 fill-current text-gray-500" />}
                     {row.isSigma && <Sigma className="h-3 w-3" />}
                     <span className={`${row.isBold ? 'font-bold' : ''}`}>{row.label}</span>
+                    {dirtyRows[index] && <Button size="sm" className="h-6 text-xs ml-2" onClick={() => handleApplyChanges(index)}>Apply</Button>}
                   </div>
                 </TableCell>
                 <TableCell className={`py-1 text-center ${row.textColor || ''}`}>
                     {row.showLoad && <Button variant='outline' size='sm' className='h-6 text-xs bg-gray-200'>Load</Button>}
                 </TableCell>
-                {liquidityPlanData.months.map(month => (
-                    <TableCell key={month} className={`text-right py-1 ${row.textColor || ''} ${row.isBold ? 'font-bold' : ''}`}>
-                        {(row.values[month] || 0).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
-                    </TableCell>
-                ))}
+                {staticData.months.map(month => {
+                    const isEditing = editingCell?.rowIndex === index && editingCell?.month === month;
+                    const isEditable = editableRows.includes(row.label);
+                    const currentValue = row.values[month] || 0;
+                    
+                    return (
+                        <TableCell 
+                            key={month} 
+                            className={`text-right py-1 ${row.textColor || ''} ${row.isBold ? 'font-bold' : ''} ${isEditable ? 'cursor-pointer hover:bg-yellow-100' : ''}`}
+                            onClick={() => handleCellClick(index, month, currentValue)}
+                        >
+                            {isEditing ? (
+                                <Input
+                                    type="text"
+                                    value={inputValue}
+                                    onChange={handleInputChange}
+                                    onBlur={handleInputBlur}
+                                    onKeyDown={(e) => e.key === 'Enter' && handleInputBlur()}
+                                    autoFocus
+                                    className="h-6 text-right text-xs"
+                                />
+                            ) : (
+                                currentValue.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })
+                            )}
+                        </TableCell>
+                    );
+                })}
               </TableRow>
             ))}
           </TableBody>
