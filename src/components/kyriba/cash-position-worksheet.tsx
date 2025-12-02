@@ -22,13 +22,15 @@ import {
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import CashPositionChart from './charts/cash-position-chart';
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import { generateCashPositionData } from '@/lib/kyriba-data-generator';
 import { format, eachDayOfInterval, lastDayOfMonth, startOfMonth, addDays, eachWeekOfInterval } from 'date-fns';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Calendar } from '../ui/calendar';
 import { cn } from '@/lib/utils';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 const fullMonthData = generateCashPositionData(new Date(2024, 2, 1));
 const march2024 = new Date(2024, 2, 15);
@@ -39,6 +41,35 @@ export default function CashPositionWorksheet() {
   const [startDate, setStartDate] = useState<Date>(new Date(2024, 2, 5));
   const [endDate, setEndDate] = useState<Date>(new Date(2024, 2, 12));
   const [step, setStep] = useState<'Day' | 'Week'>('Day');
+  const printRef = useRef<HTMLDivElement>(null);
+
+  const handlePrint = () => {
+    const input = printRef.current;
+    if (input) {
+      html2canvas(input, { scale: 2 }).then((canvas) => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('l', 'mm', 'a4');
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+        const canvasWidth = canvas.width;
+        const canvasHeight = canvas.height;
+        const ratio = canvasWidth / canvasHeight;
+        let newCanvasWidth = pdfWidth;
+        let newCanvasHeight = newCanvasWidth / ratio;
+
+        if (newCanvasHeight > pdfHeight) {
+            newCanvasHeight = pdfHeight;
+            newCanvasWidth = newCanvasHeight * ratio;
+        }
+        
+        const x = (pdfWidth - newCanvasWidth) / 2;
+        const y = (pdfHeight - newCanvasHeight) / 2;
+        
+        pdf.addImage(imgData, 'PNG', x, y, newCanvasWidth, newCanvasHeight);
+        pdf.save('cash-position-worksheet.pdf');
+      });
+    }
+  };
 
   const { dates, tableData, finalBalance, chartData } = useMemo(() => {
     const validStartDate = startDate > endDateOfMonth ? endDateOfMonth : startDate;
@@ -87,7 +118,7 @@ export default function CashPositionWorksheet() {
   
 
   return (
-    <div className="bg-background text-foreground h-full flex flex-col">
+    <div className="bg-background text-foreground h-full flex flex-col" ref={printRef}>
       <div className="border-b">
         <div className="px-6 py-2 flex justify-between items-center">
             <div className='flex items-center gap-2'>
@@ -99,7 +130,7 @@ export default function CashPositionWorksheet() {
           <div className="flex items-center gap-2 text-muted-foreground">
               <FilePen className="h-4 w-4 cursor-pointer" />
               <Info className="h-4 w-4 cursor-pointer" />
-              <Printer className="h-4 w-4 cursor-pointer" />
+              <Printer className="h-4 w-4 cursor-pointer" onClick={handlePrint} />
               <History className="h-4 w-4 cursor-pointer" />
               <MoreVertical className="h-4 w-4 cursor-pointer" />
           </div>
