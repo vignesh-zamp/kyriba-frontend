@@ -25,16 +25,16 @@ import AIPredictionModal from './ai-prediction-modal';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 
 const initialVisibleLines: { [key: string]: boolean } = {
-  'Final balance': true,
-  LIQUIDITY: true,
-  TARGET: true,
+  'Final balance': false,
+  LIQUIDITY: false,
+  TARGET: false,
   'TOTAL AVAILABLE FUNDING': false,
   'TOTAL FINANCIAL FLOWS': false,
   'TOTAL INVESTMENT FLOWS': false,
   'TOTAL OPERATING FLOWS': false,
-  'Payroll': false,
-  'Taxes': false,
-  'VAT Collected': false,
+  'Payroll': true,
+  'Taxes': true,
+  'VAT Collected': true,
 };
 
 const editableRows = ['Payroll', 'Taxes', 'VAT Collected'];
