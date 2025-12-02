@@ -167,8 +167,8 @@ export default function LiquidityPlan() {
       </div>
       <div className="flex-grow overflow-auto px-6">
         <Table className="w-full whitespace-nowrap">
-          <TableHeader>
-            <TableRow className="bg-gray-100 hover:bg-gray-100 sticky top-0">
+          <TableHeader className="sticky top-0 z-10">
+            <TableRow className="bg-gray-100 hover:bg-gray-100">
               <TableHead className="py-2 text-xs w-[200px]"></TableHead>
               <TableHead className="py-2 text-xs w-[100px]"></TableHead>
               {liquidityPlanData.months.map(month => <TableHead key={month} className="text-right py-2">{month}</TableHead>)}
