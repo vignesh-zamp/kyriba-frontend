@@ -25,6 +25,9 @@ const lineColors: { [key: string]: string } = {
     'TOTAL FINANCIAL FLOWS': '#14b8a6',
     'TOTAL INVESTMENT FLOWS': '#facc15',
     'TOTAL OPERATING FLOWS': '#ec4899',
+    'Payroll': '#8b5cf6',
+    'Taxes': '#d946ef',
+    'VAT Collected': '#db2777',
   };
   
 

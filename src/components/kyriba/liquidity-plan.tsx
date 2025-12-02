@@ -26,14 +26,15 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 
 const initialVisibleLines: { [key: string]: boolean } = {
   'Final balance': true,
-  'CASH MOVEMENT': false,
   LIQUIDITY: true,
-  'Surplus / Defecit': false,
   TARGET: true,
   'TOTAL AVAILABLE FUNDING': false,
   'TOTAL FINANCIAL FLOWS': false,
   'TOTAL INVESTMENT FLOWS': false,
   'TOTAL OPERATING FLOWS': false,
+  'Payroll': false,
+  'Taxes': false,
+  'VAT Collected': false,
 };
 
 const editableRows = ['Payroll', 'Taxes', 'VAT Collected'];
@@ -49,7 +50,7 @@ export default function LiquidityPlan() {
   const series = useMemo(() => {
     const newSeries: { [key: string]: { [key: string]: number } } = {};
     tableData.forEach(row => {
-        if (row.label in staticData.series) {
+        if (row.label in staticData.series || editableRows.includes(row.label)) {
             newSeries[row.label] = row.values;
         }
     });
@@ -125,7 +126,7 @@ export default function LiquidityPlan() {
           </div>
         </div>
       </div>
-      <div className="px-6 py-2">
+      <div className="px-6 py-1">
         <LiquidityPlanChart data={chartData} visibleLines={visibleLines} />
       </div>
       <div className="px-6 pb-2 flex items-end gap-2 text-xs border-b">
@@ -201,7 +202,7 @@ export default function LiquidityPlan() {
             </div>
             <Button size="sm" className='bg-gray-200 text-black hover:bg-gray-300'>Apply</Button>
       </div>
-      <div className="px-6 py-1 flex items-center justify-end gap-4">
+      <div className="px-6 py-1 flex items-center justify-end gap-4 flex-wrap">
         {Object.keys(initialVisibleLines).map(line => (
           <div key={line} className="flex items-center gap-1">
             <Checkbox
