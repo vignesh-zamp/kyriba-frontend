@@ -35,9 +35,10 @@ const initialVisibleLines: { [key: string]: boolean } = {
   'Payroll': true,
   'Taxes': true,
   'VAT Collected': true,
+  'Customer Receipts (AR)': true,
 };
 
-const editableRows = ['Payroll', 'Taxes', 'VAT Collected'];
+const editableRows = ['Payroll', 'Taxes', 'VAT Collected', 'Customer Receipts (AR)'];
 
 export default function LiquidityPlan() {
   const [visibleLines, setVisibleLines] = useState(initialVisibleLines);
@@ -50,13 +51,13 @@ export default function LiquidityPlan() {
   const series = useMemo(() => {
     const newSeries: { [key: string]: { [key: string]: number } } = {};
     tableData.forEach(row => {
-        if (row.label in staticData.series || editableRows.includes(row.label)) {
+        if (Object.keys(initialVisibleLines).includes(row.label)) {
             newSeries[row.label] = row.values;
         }
     });
     // Fill missing series from static data to avoid crashes if a row is not in tableData
     Object.keys(staticData.series).forEach(key => {
-        if (!newSeries[key]) {
+        if (!newSeries[key] && Object.keys(initialVisibleLines).includes(key)) {
             newSeries[key] = staticData.series[key as keyof typeof staticData.series];
         }
     })

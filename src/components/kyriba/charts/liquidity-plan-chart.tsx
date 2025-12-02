@@ -28,6 +28,7 @@ const lineColors: { [key: string]: string } = {
     'Payroll': '#8b5cf6',
     'Taxes': '#d946ef',
     'VAT Collected': '#db2777',
+    'Customer Receipts (AR)': '#10b981',
   };
   
 
