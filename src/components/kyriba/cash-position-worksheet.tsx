@@ -46,7 +46,22 @@ export default function CashPositionWorksheet() {
   const handlePrint = () => {
     const input = printRef.current;
     if (input) {
-      html2canvas(input, { scale: 2 }).then((canvas) => {
+      const tableContainer = input.querySelector('.overflow-auto') as HTMLElement;
+      if (tableContainer) {
+        tableContainer.style.height = 'auto';
+        tableContainer.style.overflow = 'visible';
+      }
+
+      html2canvas(input, {
+        scale: 2,
+        windowWidth: input.scrollWidth,
+        windowHeight: input.scrollHeight,
+      }).then((canvas) => {
+        if (tableContainer) {
+          tableContainer.style.height = '';
+          tableContainer.style.overflow = 'auto';
+        }
+        
         const imgData = canvas.toDataURL('image/png');
         const pdf = new jsPDF('l', 'mm', 'a4');
         const pdfWidth = pdf.internal.pageSize.getWidth();
