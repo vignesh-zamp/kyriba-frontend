@@ -42,7 +42,7 @@ export default function LiquidityPlanChart({ data, visibleLines }: LiquidityPlan
   const activeLines = Object.keys(visibleLines).filter(key => visibleLines[key]);
 
   return (
-    <div style={{ width: '100%', height: 300 }}>
+    <div style={{ width: '100%', height: 200 }}>
       <ResponsiveContainer>
         <LineChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
           <CartesianGrid strokeDasharray="3 3" vertical={false} />

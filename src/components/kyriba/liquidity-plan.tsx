@@ -77,10 +77,10 @@ export default function LiquidityPlan() {
           </div>
         </div>
       </div>
-      <div className="px-6 py-4">
+      <div className="px-6 py-2">
         <LiquidityPlanChart data={chartData} visibleLines={visibleLines} />
       </div>
-      <div className="px-6 pb-4 flex items-end gap-2 text-xs border-b">
+      <div className="px-6 pb-2 flex items-end gap-2 text-xs border-b">
             <div className="flex flex-col">
                 <label className='mb-1'>Periodicity:</label>
                 <Select defaultValue="monthly">
@@ -153,7 +153,7 @@ export default function LiquidityPlan() {
             </div>
             <Button size="sm" className='bg-gray-200 text-black hover:bg-gray-300'>Apply</Button>
       </div>
-      <div className="px-6 py-2 flex items-center justify-end gap-4">
+      <div className="px-6 py-1 flex items-center justify-end gap-4">
         {Object.keys(initialVisibleLines).map(line => (
           <div key={line} className="flex items-center gap-1">
             <Checkbox
