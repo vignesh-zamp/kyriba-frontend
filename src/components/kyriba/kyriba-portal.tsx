@@ -234,8 +234,9 @@ const Header = ({ title, showStar, activeView }: { title: string, showStar?: boo
               <Button variant="ghost" size="icon"><Maximize className="h-5 w-5"/></Button>
               <div className="flex items-center gap-2 rounded-full border p-1">
                   <Avatar className="h-8 w-8">
-                      <AvatarImage src="https://i.pravatar.cc/150?u=ad" />
-                      <AvatarFallback>AD</AvatarFallback>
+                      <AvatarFallback className="bg-background">
+                        <User className="h-5 w-5" />
+                      </AvatarFallback>
                   </Avatar>
                   <span className="pr-2 text-sm font-semibold">AD</span>
               </div>
