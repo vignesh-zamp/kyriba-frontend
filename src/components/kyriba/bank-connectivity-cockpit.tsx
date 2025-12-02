@@ -1,4 +1,7 @@
 'use client';
+import { useRef } from 'react';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 import {
   Table,
   TableBody,
@@ -51,8 +54,39 @@ const total = {
 };
 
 export default function BankConnectivityCockpit() {
+  const printRef = useRef<HTMLDivElement>(null);
+
+  const handlePrint = () => {
+    const input = printRef.current;
+    if (input) {
+      html2canvas(input, { scale: 2 }).then((canvas) => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('l', 'mm', 'a4');
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+        const canvasWidth = canvas.width;
+        const canvasHeight = canvas.height;
+        const ratio = canvasWidth / canvasHeight;
+        let newCanvasWidth = pdfWidth;
+        let newCanvasHeight = newCanvasWidth / ratio;
+
+        if (newCanvasHeight > pdfHeight) {
+            newCanvasHeight = pdfHeight;
+            newCanvasWidth = newCanvasHeight * ratio;
+        }
+        
+        const x = (pdfWidth - newCanvasWidth) / 2;
+        const y = (pdfHeight - newCanvasHeight) / 2;
+        
+        pdf.addImage(imgData, 'PNG', x, y, newCanvasWidth, newCanvasHeight);
+        pdf.save('bank-connectivity-cockpit.pdf');
+      });
+    }
+  };
+
+
   return (
-    <div className="bg-background text-foreground h-full flex flex-col">
+    <div className="bg-background text-foreground h-full flex flex-col" ref={printRef}>
       <div className="border-b">
         <div className="px-6 py-2 flex justify-between items-center">
           <h2 className="text-sm font-semibold">
@@ -62,7 +96,7 @@ export default function BankConnectivityCockpit() {
               <FilePen className="h-4 w-4 cursor-pointer" />
               <ListFilter className="h-4 w-4 cursor-pointer" />
               <Info className="h-4 w-4 cursor-pointer" />
-              <Printer className="h-4 w-4 cursor-pointer" />
+              <Printer className="h-4 w-4 cursor-pointer" onClick={handlePrint} />
               <History className="h-4 w-4 cursor-pointer" />
               <MoreVertical className="h-4 w-4 cursor-pointer" />
           </div>
