@@ -70,15 +70,15 @@ const sidebarFooterNav = [
   { id: 'support', icon: Settings, label: 'Support', tooltip: 'Support' },
 ]
 
-type ActiveView = 'menu-map' | 'home' | 'bank-connectivity';
-type OpenModal = 'none' | 'cash-position' | 'liquidity-plan' | 'variance-analysis' | 'variance-analysis-result' | 'drawdown-request' | 'track-payables';
+type ActiveView = 'menu-map' | 'home' | 'bank-connectivity' | 'cash-position';
+type OpenModal = 'none' | 'liquidity-plan' | 'variance-analysis' | 'variance-analysis-result' | 'drawdown-request' | 'track-payables';
 
 export default function KyribaPortal() {
   const [activeView, setActiveView] = React.useState<ActiveView>('menu-map');
   const [openModal, setOpenModal] = React.useState<OpenModal>('none');
 
-  const handleViewChange = (view: ActiveView | 'cash-position' | 'liquidity-plan' | 'variance-analysis' | 'drawdown-request' | 'track-payables') => {
-    if (view === 'cash-position' || view === 'liquidity-plan' || view === 'variance-analysis' || view === 'drawdown-request' || view === 'track-payables') {
+  const handleViewChange = (view: ActiveView | 'liquidity-plan' | 'variance-analysis' | 'drawdown-request' | 'track-payables') => {
+    if (view === 'liquidity-plan' || view === 'variance-analysis' || view === 'drawdown-request' || view === 'track-payables') {
       setOpenModal(view);
     } else {
       setActiveView(view);
@@ -97,6 +97,8 @@ export default function KyribaPortal() {
         return 'Home Page';
       case 'bank-connectivity':
         return '';
+      case 'cash-position':
+        return 'Cash position worksheet with chart - (Cash Balances - Chart)';
       default:
         return 'Menu Map';
     }
@@ -116,7 +118,7 @@ export default function KyribaPortal() {
                   isActive={activeView === item.id} 
                   tooltip={item.tooltip}
                   onClick={() => {
-                    if (item.id === 'home' || item.id === 'menu-map') {
+                    if (item.id === 'home' || item.id === 'menu-map' || item.id === 'cash-position') {
                       setActiveView(item.id as ActiveView);
                     }
                     if (item.id === 'cash-liquidity') {
@@ -147,21 +149,13 @@ export default function KyribaPortal() {
       </Sidebar>
       <SidebarInset>
         <main className="flex flex-1 flex-col bg-[#E8E9EB]">
-          <Header title={getHeaderTitle()} showStar={activeView === 'home'} activeView={activeView} />
-          <div className="flex-1 overflow-auto bg-[#E8E9EB] p-6">
-            {activeView === 'menu-map' && <MenuMap onViewChange={handleViewChange} />}
-            {activeView === 'home' && <HomeDashboard />}
+          <Header title={getHeaderTitle()} showStar={activeView === 'home' || activeView === 'cash-position'} activeView={activeView} />
+          <div className="flex-1 overflow-auto bg-[#F0F2F5]">
+            {activeView === 'menu-map' && <div className="p-6"><MenuMap onViewChange={handleViewChange} /></div>}
+            {activeView === 'home' && <div className="p-6"><HomeDashboard /></div>}
             {activeView === 'bank-connectivity' && <BankConnectivityCockpit />}
+            {activeView === 'cash-position' && <CashPositionWorksheet />}
             
-            <Dialog open={openModal === 'cash-position'} onOpenChange={(isOpen) => !isOpen && setOpenModal('none')}>
-              <DialogContent className="max-w-7xl h-[90vh] flex flex-col p-0">
-                <DialogHeader className="p-4">
-                  <DialogTitle className="sr-only">Cash Position Worksheet</DialogTitle>
-                </DialogHeader>
-                <CashPositionWorksheet />
-              </DialogContent>
-            </Dialog>
-
             <Dialog open={openModal === 'liquidity-plan'} onOpenChange={(isOpen) => !isOpen && setOpenModal('none')}>
               <DialogContent className="max-w-7xl h-[90vh] flex flex-col p-0">
                 <DialogHeader className="p-4">
@@ -249,4 +243,3 @@ const Header = ({ title, showStar, activeView }: { title: string, showStar?: boo
       </header>
   );
 };
-
