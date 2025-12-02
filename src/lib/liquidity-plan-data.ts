@@ -63,6 +63,31 @@ export const liquidityPlanData = {
             isBold: true, 
             bgColor: 'bg-blue-100' 
         },
+        {
+            label: 'TOTAL OPERATING FLOWS',
+            values: zipObject(months, seriesData["TOTAL OPERATING FLOWS"]),
+            isSigma: true, isBold: true, bgColor: 'bg-blue-800', textColor: 'text-white'
+        },
+        { label: 'Operating Inflows', values: zipObject(months, [1403669, 1711913, 4965897, 4160413, 4289654, 6203582, 3276281, 4608330, 3962108, 4100000, 3900000, 4300000, 4500000]), isSigma: true, indent: 1, isBold: true, bgColor: 'bg-blue-600', textColor: 'text-white' },
+        { label: 'Customer Receipts (AR)', values: zipObject(months, [58237, 1056438, 830000, 1085838, 791397, 1233019, 806241, 1022679, 1224309, 1300000, 1100000, 1400000, 1500000]), showLoad: true, indent: 2 },
+        { label: 'Other / Dividends', values: zipObject(months, [40000, 174002, 1837156, 1121685, 2055498, 2422557, 491553, 2150205, 1120088, 1200000, 1000000, 1300000, 1400000]), showLoad: true, indent: 2 },
+        { label: 'Repayment of ESOP Loan', values: zipObject(months, [1184033, 316419, 2158707, 1935988, 1372032, 2322357, 1824627, 1394325, 1446824, 1500000, 1300000, 1600000, 1700000]), showLoad: true, indent: 2 },
+        { label: 'VAT Collected', values: zipObject(months, [121399, 165054, 140034, 16902, 70727, 225649, 153860, 41121, 170887, 100000, 50000, 0, -100000]), showLoad: true, indent: 2 },
+        { label: 'Operating Outflows', values: zipObject(months, [-3579848, -3256986, -1898355, -2871769, -2634807, -2960727, -2652101, -2734522, -1999399, -2000000, -2100000, -2100000, -2000000]), isSigma: true, indent: 1, isBold: true, bgColor: 'bg-blue-600', textColor: 'text-white' },
+        { label: 'AP Invoices', values: zipObject(months, [-1907726, -1759272, -1150644, -1890191, -497537, -1287531, -519105, -1214425, -1006481, -1100000, -1200000, -1100000, -1000000]), showLoad: true, indent: 2 },
+        { label: 'Payroll', values: zipObject(months, [-276348, -105424, -348535, -320802, -755037, -302830, -668403, -306693, -259162, -300000, -300000, -300000, -300000]), showLoad: true, indent: 2 },
+        { label: 'Other Operating Expenses', values: zipObject(months, [-751673, -768464, -190816, -504760, -538507, -509484, -924177, -587589, -190037, -200000, -200000, -300000, -300000]), showLoad: true, indent: 2 },
+        { label: 'Taxes', values: zipObject(months, [-644101, -623826, -208360, -156016, -843726, -860882, -540416, -625815, -543719, -400000, -400000, -400000, -400000]), showLoad: true, indent: 2 },
+        { label: 'Loan to ESOP', values: zipObject(months, [0,0,0,0,0,0,0,0,0,0,0,0,0]), showLoad: true, indent: 2 },
+        {
+            label: 'TOTAL INVESTMENT FLOWS',
+            values: zipObject(months, seriesData["TOTAL INVESTMENT FLOWS"]),
+            isSigma: true, isBold: true, bgColor: 'bg-blue-800', textColor: 'text-white'
+        },
+        { label: 'Investment Inflows', values: zipObject(months, [0, 0, 0, 100000, 90000, 500000, 0, 0, 0, 0, 500000, 1000000, 2000000]), isSigma: true, indent: 1, isBold: true, bgColor: 'bg-blue-600', textColor: 'text-white' },
+        { label: 'Capital Increase', values: zipObject(months, [0, 0, 0, 100000, 0, 500000, 0, 0, 0, 0, 500000, 1000000, 2000000]), showLoad: true, indent: 2 },
+        { label: 'Sales of Fixed Assets', values: zipObject(months, [0, 0, 0, 0, 90000, 0, 0, 0, 0, 0, 0, 0, 0]), showLoad: true, indent: 2 },
+        { label: 'Investment Outflows', values: zipObject(months, [0, 0, 0, 0, 0, 0, -2000000, -100000, -3000000, -1500000, -1000000, 0, 0]), isSigma: true, indent: 1, isBold: true, bgColor: 'bg-blue-600', textColor: 'text-white' },
         { 
             label: "LIQUIDITY", 
             values: zipObject(months, seriesData["LIQUIDITY"]), 
@@ -98,30 +123,5 @@ export const liquidityPlanData = {
             isBold: true, 
             bgColor: 'bg-blue-100' 
         },
-        {
-            label: 'TOTAL OPERATING FLOWS',
-            values: zipObject(months, seriesData["TOTAL OPERATING FLOWS"]),
-            isSigma: true, isBold: true, bgColor: 'bg-blue-800', textColor: 'text-white'
-        },
-        { label: 'Operating Inflows', values: zipObject(months, [1403669, 1711913, 4965897, 4160413, 4289654, 6203582, 3276281, 4608330, 3962108, 4100000, 3900000, 4300000, 4500000]), isSigma: true, indent: 1, isBold: true, bgColor: 'bg-blue-600', textColor: 'text-white' },
-        { label: 'Customer Receipts (AR)', values: zipObject(months, [58237, 1056438, 830000, 1085838, 791397, 1233019, 806241, 1022679, 1224309, 1300000, 1100000, 1400000, 1500000]), showLoad: true, indent: 2 },
-        { label: 'Other / Dividends', values: zipObject(months, [40000, 174002, 1837156, 1121685, 2055498, 2422557, 491553, 2150205, 1120088, 1200000, 1000000, 1300000, 1400000]), showLoad: true, indent: 2 },
-        { label: 'Repayment of ESOP Loan', values: zipObject(months, [1184033, 316419, 2158707, 1935988, 1372032, 2322357, 1824627, 1394325, 1446824, 1500000, 1300000, 1600000, 1700000]), showLoad: true, indent: 2 },
-        { label: 'VAT Collected', values: zipObject(months, [121399, 165054, 140034, 16902, 70727, 225649, 153860, 41121, 170887, 100000, 50000, 0, -100000]), showLoad: true, indent: 2 },
-        { label: 'Operating Outflows', values: zipObject(months, [-3579848, -3256986, -1898355, -2871769, -2634807, -2960727, -2652101, -2734522, -1999399, -2000000, -2100000, -2100000, -2000000]), isSigma: true, indent: 1, isBold: true, bgColor: 'bg-blue-600', textColor: 'text-white' },
-        { label: 'AP Invoices', values: zipObject(months, [-1907726, -1759272, -1150644, -1890191, -497537, -1287531, -519105, -1214425, -1006481, -1100000, -1200000, -1100000, -1000000]), showLoad: true, indent: 2 },
-        { label: 'Payroll', values: zipObject(months, [-276348, -105424, -348535, -320802, -755037, -302830, -668403, -306693, -259162, -300000, -300000, -300000, -300000]), showLoad: true, indent: 2 },
-        { label: 'Other Operating Expenses', values: zipObject(months, [-751673, -768464, -190816, -504760, -538507, -509484, -924177, -587589, -190037, -200000, -200000, -300000, -300000]), showLoad: true, indent: 2 },
-        { label: 'Taxes', values: zipObject(months, [-644101, -623826, -208360, -156016, -843726, -860882, -540416, -625815, -543719, -400000, -400000, -400000, -400000]), showLoad: true, indent: 2 },
-        { label: 'Loan to ESOP', values: zipObject(months, [0,0,0,0,0,0,0,0,0,0,0,0,0]), showLoad: true, indent: 2 },
-        {
-            label: 'TOTAL INVESTMENT FLOWS',
-            values: zipObject(months, seriesData["TOTAL INVESTMENT FLOWS"]),
-            isSigma: true, isBold: true, bgColor: 'bg-blue-800', textColor: 'text-white'
-        },
-        { label: 'Investment Inflows', values: zipObject(months, [0, 0, 0, 100000, 90000, 500000, 0, 0, 0, 0, 500000, 1000000, 2000000]), isSigma: true, indent: 1, isBold: true, bgColor: 'bg-blue-600', textColor: 'text-white' },
-        { label: 'Capital Increase', values: zipObject(months, [0, 0, 0, 100000, 0, 500000, 0, 0, 0, 0, 500000, 1000000, 2000000]), showLoad: true, indent: 2 },
-        { label: 'Sales of Fixed Assets', values: zipObject(months, [0, 0, 0, 0, 90000, 0, 0, 0, 0, 0, 0, 0, 0]), showLoad: true, indent: 2 },
-        { label: 'Investment Outflows', values: zipObject(months, [0, 0, 0, 0, 0, 0, -2000000, -100000, -3000000, -1500000, -1000000, 0, 0]), isSigma: true, indent: 1, isBold: true, bgColor: 'bg-blue-600', textColor: 'text-white' },
     ]
 };
